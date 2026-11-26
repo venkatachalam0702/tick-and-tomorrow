@@ -1,0 +1,270 @@
+[
+  {
+    "id": "C01",
+    "section": "Inside the microwave",
+    "claim": "A microwave oven is an electric oven that heats and cooks food by exposing it to electromagnetic radiation in the microwave frequency range.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "A microwave oven, or simply microwave, is an electric oven that heats and cooks food by exposing it to electromagnetic radiation in the microwave frequency range."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C02",
+    "section": "Inside the microwave",
+    "claim": "The heating effect in a microwave oven is fairly uniform in the outer 25 to 38 millimeters of a homogeneous, high-water-content food item.",
+    "status": "single-source",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "the heating effect is fairly uniform in the outer 25–38 mm (1–1.5 inches) of a homogeneous, high-water-content food item."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C03",
+    "section": "The magnetron",
+    "claim": "The development of the cavity magnetron in the United Kingdom made possible the production of electromagnetic waves of a small enough wavelength to efficiently heat up water molecules.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "The development of the cavity magnetron in the United Kingdom made possible the production of electromagnetic waves of a small enough wavelength (microwaves) to efficiently heat up water molecules."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C04",
+    "section": "The magnetron",
+    "claim": "A cavity magnetron generates microwaves using the interaction of a stream of electrons with a magnetic field while moving past a series of cavity resonators.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S2",
+        "quote": "A cavity magnetron generates microwaves using the interaction of a stream of electrons with a magnetic field, while moving past a series of cavity resonators, which are small, open cavities in a metal block."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C05",
+    "section": "The magnetron",
+    "claim": "The magnetron serves solely as an electronic oscillator generating a microwave signal from direct-current electricity supplied to the vacuum tube.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S2",
+        "quote": "the magnetron serves solely as an electronic oscillator generating a microwave signal from direct-current electricity supplied to the vacuum tube."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C06",
+    "section": "Dielectric heating and water molecules",
+    "claim": "Dielectric heating takes advantage of the electric dipole structure of water molecules, fats, and many other substances in the food.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "Dielectric heating takes advantage of the electric dipole structure of water molecules, fats, and many other substances in the food."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C07",
+    "section": "Dielectric heating and water molecules",
+    "claim": "Molecules with an electrical dipole moment have a partial positive charge at one end and a partial negative charge at the other.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "These molecules have a partial positive charge at one end and a partial negative charge at the other."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C08",
+    "section": "Dielectric heating and water molecules",
+    "claim": "In an alternating electric field, polar molecules rotate as they continually try to align themselves to the field.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "In an alternating electric field, they will rotate as they continually try to align themselves to the field."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C09",
+    "section": "Dielectric heating and water molecules",
+    "claim": "All polar molecules participate in dielectric heating, and the process can happen over a wide range of frequencies rather than at a special resonance of water molecules.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "Instead, all polar molecules participate, and dielectric heating for each molecule can happen over a wide range of frequencies."
+      },
+      {
+        "source_id": "S5",
+        "quote": "There is a popular myth that explains microwave ovens as operating at a special resonance of water molecules. In reality, this myth is just that, a myth."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C10",
+    "section": "Molecular friction and heat",
+    "claim": "As the field alternates, molecules reverse direction and push, pull, and collide with other molecules through electrical forces, distributing energy to adjacent molecules and atoms.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S3",
+        "quote": "As the field alternates, the molecules reverse direction. Rotating molecules push, pull, and collide with other molecules (through electrical forces), distributing the energy to adjacent molecules and atoms in the material."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C11",
+    "section": "Molecular friction and heat",
+    "claim": "Temperature is related to the average kinetic energy of atoms or molecules, so agitating the molecules in this way increases the temperature of the material.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S3",
+        "quote": "Temperature is related to the average kinetic energy (energy of motion) of the atoms or molecules in a material, so agitating the molecules in this way increases the temperature of the material."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C12",
+    "section": "Cookware and materials",
+    "claim": "Cookware must be transparent to microwaves, because conductive cookware like metal pots reflects microwaves and prevents them from reaching the food.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "Cookware must be transparent to microwaves. Conductive cookware, such as metal pots, reflects microwaves, and prevents the microwaves from reaching the food."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C13",
+    "section": "Cookware and materials",
+    "claim": "Cookware made of materials with high electrical permittivity will absorb microwaves, resulting in the cookware heating rather than the food.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "Cookware made of materials with high electrical permittivity will absorb microwaves, resulting in the cookware heating rather than the food."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C14",
+    "section": "Safety and the door",
+    "claim": "The cooking chamber is similar to a Faraday cage to prevent the waves from coming out of the oven.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "The cooking chamber is similar to a Faraday cage to prevent the waves from coming out of the oven."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C15",
+    "section": "Safety and the door",
+    "claim": "Even though there is no continuous metal-to-metal contact around the rim of the door, choke connections on the door edges act like metal-to-metal contact at the frequency of the microwaves.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "Even though there is no continuous metal-to-metal contact around the rim of the door, choke connections on the door edges act like metal-to-metal contact, at the frequency of the microwaves, to prevent leakage."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C16",
+    "section": "Safety and the door",
+    "claim": "The oven door usually has a window with a layer of conductive mesh some distance from the outer panel to maintain shielding.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "The oven door usually has a window for easy viewing, with a layer of conductive mesh some distance from the outer panel to maintain the shielding."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C17",
+    "section": "Safety and the door",
+    "claim": "Because the size of the perforations in the mesh is much less than the microwaves' wavelength, microwave radiation cannot pass through the door, while visible light can.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "Because the size of the perforations in the mesh is much less than the microwaves' wavelength (12.2 cm for the usual 2.45 GHz), microwave radiation cannot pass through the door, while visible light (with its much shorter wavelength) can."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C18",
+    "section": "Uneven heating",
+    "claim": "Simply radiating microwaves into a chamber intrinsically results in very uneven energy distribution, causing over- and under-heating in various parts of the food.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "Simply radiating microwaves into a chamber intrinsically results in very uneven energy distribution, over- and under-heating various parts of the food."
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C19",
+    "section": "Uneven heating",
+    "claim": "To achieve reasonably even heating, a microwave oven must have either multiple magnetrons, a microwave stirrer, or a turntable.",
+    "status": "verified",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "For reasonably even heating, a microwave oven must have either multiple magnetrons, common in commercial units, a microwave stirrer, which is a fan-like mechanism in which microwave-reflective blades spin to vary the radiation pattern... or a turntable"
+      }
+    ],
+    "rejected": []
+  },
+  {
+    "id": "C20",
+    "section": "Uneven heating",
+    "claim": "It is a common misconception that microwave ovens cook food from the inside out, whereas 2.45 GHz microwaves typically only penetrate approximately 1 cm into most foods.",
+    "status": "single-source",
+    "evidence": [
+      {
+        "source_id": "S1",
+        "quote": "Another misconception is that microwave ovens cook food \"from the inside out\", meaning from the center of the entire mass of food outwards."
+      },
+      {
+        "source_id": "S1",
+        "quote": "2.45 GHz microwaves can only penetrate approximately 1 cm (0.4 in) into most foods."
+      }
+    ],
+    "rejected": []
+  }
+]
