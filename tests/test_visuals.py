@@ -198,3 +198,22 @@ def test_run_end_to_end(tmp_path, monkeypatch):
     assert credits == [{"type": "photo", "title": "Magnetron.jpg", "author": "NASA", "license": "Public domain",
                         "page": "p", "provider": "Wikimedia Commons", "visual": "V03"}]
     assert len(json.loads((ep / "visuals.json").read_text())) == 4
+
+
+def test_saved_plans_are_reused(tmp_path, monkeypatch):
+    md = _md()
+    cues = visuals.cues_from_script(md)
+    for c in cues:
+        c.plan = {"id": c.id, "headline": "saved " + c.id}
+    path = tmp_path / "visuals.json"
+    path.write_text(json.dumps([visuals.asdict(c) for c in cues]))
+    fresh = visuals.cues_from_script(md)
+    assert visuals.reuse_plans(fresh, path) and fresh[3].plan["headline"] == "saved V04"
+    changed = visuals.cues_from_script(md.replace("Question card", "Other card"))
+    assert not visuals.reuse_plans(changed, path)
+
+
+def test_labels_never_split_words(tmp_path):
+    wrapped, size = diagram._fit("Hydrogen (+)", 1.16, 1.16)
+    assert "Hydrog\n" not in wrapped and all(w in ("Hydrogen", "(+)") for w in wrapped.split())
+    assert diagram._fit("Antenna", 0.58, 0.58) is None  # too small: drawn under the circle instead

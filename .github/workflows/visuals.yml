@@ -9,6 +9,10 @@ on:
       episode:
         description: "Episode folder (leave empty for the newest episode)"
         required: false
+      replan:
+        description: "Plan all visuals again with Gemini (leave off to redraw the saved plans)"
+        type: boolean
+        default: false
 permissions:
   contents: write
   pull-requests: write
@@ -61,9 +65,10 @@ jobs:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           EP: ${{ steps.ep.outputs.dir }}
+          REPLAN: ${{ inputs.replan && '--replan' || '' }}
         run: |
           set -o pipefail
-          python -u -m pipeline.visuals make "$EP" --out out | tee visuals.log
+          python -u -m pipeline.visuals make "$EP" --out out $REPLAN | tee visuals.log
 
       - name: Upload the images
         uses: actions/upload-artifact@v4

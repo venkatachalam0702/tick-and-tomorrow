@@ -94,7 +94,52 @@ def normalize(el: dict) -> dict:
 
 
 def _wrap(text: str, width: int) -> str:
-    return "\n".join(textwrap.wrap(str(text), width=max(6, width))) if text else ""
+    """Wrap at spaces only: never split a word ("Hydrog-en") across lines."""
+    if not text:
+        return ""
+    return "\n".join(textwrap.wrap(str(text), width=max(6, width), break_long_words=False, break_on_hyphens=False))
+
+
+PX_PER_UNIT = W / 16
+PX_PER_PT = 100 / 72
+
+
+def _fit(text: str, w: float, h: float, max_size: int = SIZES["m"], min_size: int = 15):
+    """Largest font size (<= max_size) at which text, wrapped at spaces, fits a w x h area (grid units).
+
+    Returns (wrapped_text, size), or None if it does not fit even at min_size.
+    """
+    text = str(text or "").strip()
+    if not text:
+        return "", max_size
+    for size in range(max_size, min_size - 1, -1):
+        em = size * PX_PER_PT
+        chars = int(w * PX_PER_UNIT / (0.62 * em))
+        if chars < 1 or max(len(x) for x in text.split()) > chars:
+            continue
+        lines = textwrap.wrap(text, width=chars, break_long_words=False, break_on_hyphens=False)
+        # A single line may fill a thin bar (e.g. a turntable); several lines need line spacing.
+        if (0.8 if len(lines) == 1 else 1.25 * len(lines)) * em <= h * PX_PER_UNIT:
+            return "\n".join(lines), size
+    return None
+
+
+def _anchors(elements: list[dict]) -> list[tuple[int, float, float]]:
+    """(index, x, y) of each shape's centre, to spot shapes drawn inside a box."""
+    pts = []
+    for i, el in enumerate(elements):
+        try:
+            if el["type"] == "box":
+                pts.append((i, float(el["x"]) + float(el.get("w", DEFAULTS["w"])) / 2,
+                            float(el["y"]) + float(el.get("h", DEFAULTS["h"])) / 2))
+            elif el["type"] in ("circle", "text"):
+                pts.append((i, float(el["x"]), float(el["y"])))
+            elif el["type"] in ("arrow", "wave"):
+                (x1, y1), (x2, y2) = el["from"], el["to"]
+                pts.append((i, (float(x1) + float(x2)) / 2, (float(y1) + float(y2)) / 2))
+        except (KeyError, TypeError, ValueError):
+            continue
+    return pts
 
 
 def render(spec: dict, out: Path) -> Path:
@@ -127,12 +172,16 @@ def render(spec: dict, out: Path) -> Path:
                 va="center", ha="left", zorder=10)
         ax.plot([0.6, 2.6], [7.85, 7.85], color=COLORS["warm"], lw=5, solid_capstyle="round", zorder=10)
 
+    norm = []
     for i, raw in enumerate(elements):
         try:
-            el = normalize(raw)
+            norm.append(normalize(raw))
         except DiagramError as e:
             plt.close(fig)
             raise DiagramError(f"element {i + 1}: {e}") from e
+    anchors = _anchors(norm)
+
+    for i, el in enumerate(norm):
         t = el["type"]
         c = color(el.get("color"), "cool" if t in ("arrow", "wave") else "ink")
         lw = float(el.get("width", 4))
@@ -145,16 +194,33 @@ def render(spec: dict, out: Path) -> Path:
                                                     lw=lw, edgecolor=c, facecolor=c if fill else "none",
                                                     alpha=0.9 if fill else 1, zorder=3))
                 if el.get("label"):
-                    ax.text(x + w / 2, y + h / 2, _wrap(el["label"], int(w * 3.2)), ha="center", va="center",
-                            color=COLORS["bg2"] if fill else c, fontsize=SIZES["m"], fontweight="bold", zorder=4)
+                    inside = any(j != i and x < ax_ < x + w and y < ay < y + h for j, ax_, ay in anchors)
+                    txt_c = COLORS["bg2"] if fill else c
+                    if inside:  # a container: label along its top edge so it does not hit what is inside
+                        fit = _fit(el["label"], w - 0.4, 0.9) or (_wrap(el["label"], 30), 15)
+                        ax.text(x + w / 2, y + h - 0.2, fit[0], ha="center", va="top", color=txt_c,
+                                fontsize=fit[1], fontweight="bold", zorder=4)
+                    else:
+                        fit = _fit(el["label"], w - 0.3, max(h - 0.2, h * 0.9))
+                        if fit:
+                            ax.text(x + w / 2, y + h / 2, fit[0], ha="center", va="center", color=txt_c,
+                                    fontsize=fit[1], fontweight="bold", zorder=4)
+                        else:  # too small to hold its label: write it underneath
+                            ax.text(x + w / 2, y - 0.15, _wrap(el["label"], 22), ha="center", va="top", color=c,
+                                    fontsize=SIZES["s"], fontweight="bold", zorder=4)
             elif t == "circle":
                 x, y, r = _num(el, "x"), _num(el, "y"), _num(el, "r", DEFAULTS["r"])
                 fill = el.get("fill", False)
                 ax.add_patch(patches.Circle((x, y), r, lw=lw, edgecolor=c, facecolor=c if fill else "none",
                                             alpha=0.9 if fill else 1, zorder=3))
                 if el.get("label"):
-                    ax.text(x, y, _wrap(el["label"], int(r * 6)), ha="center", va="center",
-                            color=COLORS["bg2"] if fill else c, fontsize=SIZES["m"], fontweight="bold", zorder=4)
+                    fit = _fit(el["label"], r * 1.45, r * 1.45)  # the square inside the circle
+                    if fit:
+                        ax.text(x, y, fit[0], ha="center", va="center", color=COLORS["bg2"] if fill else c,
+                                fontsize=fit[1], fontweight="bold", zorder=4)
+                    else:  # small circle: label underneath
+                        ax.text(x, y - r - 0.15, _wrap(el["label"], 18), ha="center", va="top", color=c,
+                                fontsize=SIZES["s"], fontweight="bold", zorder=4)
             elif t == "arrow":
                 a, b = _pt(el.get("from"), "arrow.from"), _pt(el.get("to"), "arrow.to")
                 curve = float(el.get("curve", 0))
