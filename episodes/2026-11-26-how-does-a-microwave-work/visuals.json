@@ -9,42 +9,23 @@
   ],
   "narration": "You've probably heard that microwaves cook food from the inside out. It sounds logical, but this common kitchen myth is actually completely backwards. In reality, microwave energy struggles to penetrate much further than a single centimeter into your leftover lasagna.",
   "file": "V01.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 1,
   "plan": {
    "id": "V01",
-   "prompt": "A stylized cross section illustration of a cold lasagna dish with an imaginary glowing red interior representing a cooking myth."
+   "prompt": "Stylized cross-section of a cold lasagna dish showing a glowing red interior representing the cooking myth."
   },
   "checks": [
    {
-    "attempt": 1,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (1d67dde0-3535-46b8-9e38-54fc0907366b)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
-   },
-   {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (7cb85c3c-b42b-4cdc-8876-97db0035c705)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (5c455242-5885-4d36-b9ae-0ace7901ec7b)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
+    "pass": true,
+    "score": 5,
+    "issues": [],
+    "attempt": 1
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "illustration",
+   "made_by": "FLUX.1 schnell (Cloudflare Workers AI)"
   }
  },
  {
@@ -57,56 +38,74 @@
   ],
   "narration": "In this video, we'll explore how a specialized vacuum tube turns direct current into invisible energy waves that get food molecules moving. We'll also find out why your plate stays relatively cool while your soup boils, and how the microwave door keeps you safe.",
   "file": "V02.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 1,
   "plan": {
    "id": "V02",
    "diagram": {
+    "title": "Microwave Oven Architecture",
     "elements": [
      {
       "type": "box",
-      "x": 2.0,
-      "y": 2.0000000000000004
+      "at": [
+       1,
+       2,
+       3.5,
+       3
+      ],
+      "label": "Magnetron",
+      "color": "warm",
+      "fill": true
      },
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.0
+      "type": "wave",
+      "at": [
+       4.8,
+       3.5,
+       9,
+       3.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "box",
+      "at": [
+       9.5,
+       1.5,
+       5.5,
+       5
+      ],
+      "label": "Cooking Cavity",
+      "color": "ink"
+     },
+     {
+      "type": "label",
+      "at": [
+       6.5,
+       5.8,
+       6.5,
+       3.8
+      ],
+      "label": "Waveguide",
+      "color": "sub"
      }
-    ],
-    "title": "Microwave Oven Components"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
-    "pass": false,
-    "score": 0,
+    "pass": true,
+    "score": 4,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Expecting ',' delimiter: line 6 column 65497 (char 65557)"
-    ]
+     "The diagram is a simplified abstract representation rather than a detailed cutaway of a physical countertop microwave oven."
+    ],
+    "attempt": 1
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -119,56 +118,92 @@
   ],
   "narration": "A microwave oven heats food by exposing it to electromagnetic radiation within the microwave frequency band. The science behind this process is something called dielectric heating.",
   "file": "V03.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 2,
   "plan": {
    "id": "V03",
    "diagram": {
+    "title": "Dielectric Heating",
     "elements": [
      {
       "type": "box",
-      "x": 2.0,
-      "y": 1.5000000000000004
+      "at": [
+       2,
+       1,
+       12,
+       5.5
+      ],
+      "label": "Oven Cavity",
+      "color": "ink"
      },
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.0
+      "type": "wave",
+      "at": [
+       3,
+       5,
+       13,
+       5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "wave",
+      "at": [
+       3,
+       3.5,
+       13,
+       3.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "box",
+      "at": [
+       6.5,
+       1.5,
+       3,
+       1.8
+      ],
+      "label": "Bowl of Soup",
+      "color": "warm",
+      "fill": true
+     },
+     {
+      "type": "label",
+      "at": [
+       8,
+       6.2,
+       8,
+       5
+      ],
+      "label": "Microwave Radiation",
+      "color": "cool"
      }
-    ],
-    "title": "Electromagnetic Wave Patterns"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "The diagram shows the bowl of soup and the waves separated side by side instead of the waves passing across a bowl of soup inside the oven cavity.",
+     "The oven cavity visualization is just an empty square labeled as 'Bowl of Soup', which is confusing and inaccurate."
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+    "pass": true,
+    "score": 5,
+    "issues": [],
+    "attempt": 2
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -181,107 +216,100 @@
   ],
   "narration": "Many substances in our food, especially water and fats, are made up of polar molecules, which have an electric dipole structure. Think of a dipole molecule as a tiny microscopic magnet, with a slight positive charge on one end and a slight negative charge on the other.",
   "file": "V04.png",
-  "status": "missing",
+  "status": "flagged",
   "attempts": 3,
   "plan": {
    "id": "V04",
    "diagram": {
+    "title": "Water Molecule Dipole",
     "elements": [
      {
       "type": "circle",
-      "x": 8.0,
-      "y": 4.5
+      "at": [
+       8,
+       4.5,
+       1.2
+      ],
+      "label": "Oxygen (-)",
+      "color": "blue",
+      "fill": true
      },
      {
       "type": "circle",
-      "x": 6.0,
-      "y": 6.5
+      "at": [
+       5.5,
+       2.8,
+       0.8
+      ],
+      "label": "Hydrogen (+)",
+      "color": "red",
+      "fill": true
      },
      {
       "type": "circle",
-      "x": 10.0,
-      "y": 6.5
+      "at": [
+       10.5,
+       2.8,
+       0.8
+      ],
+      "label": "Hydrogen (+)",
+      "color": "red",
+      "fill": true
      },
      {
       "type": "line",
-      "points": [
-       [
-        8.0,
-        4.5
-       ],
-       [
-        6.0,
-        6.5
-       ]
-      ]
+      "at": [
+       7.2,
+       4.1,
+       5.9,
+       3.2
+      ],
+      "label": "",
+      "color": "ink"
      },
      {
       "type": "line",
-      "points": [
-       [
-        8.0,
-        4.5
-       ],
-       [
-        10.0,
-        6.5
-       ]
-      ]
-     },
-     {
-      "type": "text",
-      "x": 8.0,
-      "y": 4.3
-     },
-     {
-      "type": "text",
-      "x": 5.8,
-      "y": 6.3
-     },
-     {
-      "type": "text",
-      "x": 10.2,
-      "y": 6.3
-     },
-     {
-      "type": "text",
-      "x": 8.0,
-      "y": 2.5
+      "at": [
+       8.8,
+       4.1,
+       10.1,
+       3.2
+      ],
+      "label": "",
+      "color": "ink"
      }
-    ],
-    "title": "Polar Water Molecule"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "The word 'Hydrogen' is misspelled and hyphenated incorrectly as 'Hydrog en'."
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: circle needs 'r'"
-    ]
+     "The word Hydrogen is misspelled and awkwardly hyphenated across two lines as 'Hydrog en (+)' on both hydrogen atoms."
+    ],
+    "attempt": 2
    },
    {
-    "attempt": 3,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: circle needs 'r'"
-    ]
+     "The word 'Hydrogen' is incorrectly hyphenated and broken into 'Hydrog en' due to a text wrapping or generation error."
+    ],
+    "attempt": 3
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -295,56 +323,125 @@
   ],
   "narration": "When an alternating electric field moves through the oven chamber, these polar molecules constantly try to turn and align themselves with the changing field. Interestingly, this process doesn't depend on hitting some special resonance frequency of water. Dielectric heating can happen across a wide range of frequencies. As the electric field keeps flipping back and forth, the molecules repeatedly change their orientation.",
   "file": "V05.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 2,
   "plan": {
    "id": "V05",
    "diagram": {
+    "title": "Dielectric Heating of Water Molecules",
     "elements": [
      {
-      "type": "box",
-      "x": 1.0,
-      "y": 1.5
+      "type": "circle",
+      "at": [
+       4,
+       4.5,
+       0.8
+      ],
+      "label": "H2O",
+      "color": "blue",
+      "fill": true
      },
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.0
+      "type": "circle",
+      "at": [
+       8,
+       4.5,
+       0.8
+      ],
+      "label": "H2O",
+      "color": "blue",
+      "fill": true
+     },
+     {
+      "type": "circle",
+      "at": [
+       12,
+       4.5,
+       0.8
+      ],
+      "label": "H2O",
+      "color": "blue",
+      "fill": true
+     },
+     {
+      "type": "arrow",
+      "at": [
+       4.8,
+       4.8,
+       5.5,
+       5.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       7.2,
+       4.2,
+       6.5,
+       3.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       12.8,
+       4.8,
+       13.5,
+       5.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       2.5,
+       7.0,
+       5.5,
+       7.0
+      ],
+      "label": "Electric Field",
+      "color": "warm"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       9.5,
+       7.0,
+       6.5,
+       7.0
+      ],
+      "label": "Flipping Field",
+      "color": "red"
      }
-    ],
-    "title": "Rotating Dipole Molecules"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 1,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "Water molecules are represented by plain blue circles without any molecular structure (hydrogen or oxygen atoms)",
+     "There is no indication of rotation or orientation change of the molecules",
+     "All electric field vector arrows point in the exact same direction instead of alternating"
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'x'"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+    "pass": true,
+    "score": 5,
+    "issues": [],
+    "attempt": 2
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -358,118 +455,136 @@
   ],
   "narration": "As they twist and turn, they interact with neighboring molecules through electrical forces, transferring motion and energy throughout the food. And since temperature is essentially a measure of the average kinetic energy of atoms and molecules, all this movement causes the food to heat up. But to get billions of these tiny particles moving, the microwave first needs a way to generate those rapidly changing waves.",
   "file": "V06.png",
-  "status": "missing",
+  "status": "flagged",
   "attempts": 3,
   "plan": {
    "id": "V06",
    "diagram": {
+    "title": "Molecular Energy Transfer",
     "elements": [
      {
       "type": "circle",
-      "x": 4.0,
-      "y": 4.5
+      "at": [
+       4,
+       4.5,
+       1
+      ],
+      "label": "Polar Molecule",
+      "color": "red",
+      "fill": true
      },
      {
       "type": "circle",
-      "x": 4.0,
-      "y": 4.5
-     },
-     {
-      "type": "text",
-      "text": "Polar Molecule",
-      "x": 4.0,
-      "y": 5.7
+      "at": [
+       8.5,
+       4.5,
+       1
+      ],
+      "label": "Neutral Molecule",
+      "color": "blue",
+      "fill": true
      },
      {
       "type": "arrow",
-      "from": [
-       4.8,
-       5.0
+      "at": [
+       5.2,
+       4.5,
+       7.3,
+       4.5
       ],
-      "to": [
+      "label": "Collision",
+      "color": "warm"
+     },
+     {
+      "type": "wave",
+      "at": [
+       1,
+       7,
+       15,
+       7
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "label",
+      "at": [
        6.2,
-       5.5
+       6.2,
+       6.2,
+       4.5
       ],
-      "w": 1,
-      "x": 1,
-      "y": 1
-     },
-     {
-      "type": "circle",
-      "x": 7.5,
-      "y": 4.5
-     },
-     {
-      "type": "text",
-      "text": "Neutral Molecule",
-      "x": 7.5,
-      "y": 5.7
+      "label": "Electrical Forces",
+      "color": "cool"
      },
      {
       "type": "arrow",
-      "from": [
-       8.8,
-       4.5
+      "at": [
+       3.3,
+       5.2,
+       4.7,
+       5.8
       ],
-      "to": [
-       10.8,
-       4.5
+      "label": "",
+      "color": "warm"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       7.8,
+       3.8,
+       9.2,
+       3.2
       ],
-      "w": 1,
-      "x": 1,
-      "y": 1
+      "label": "",
+      "color": "warm"
      },
      {
       "type": "text",
-      "text": "Energy Transfer",
-      "x": 9.8,
-      "y": 5.2
-     },
-     {
-      "type": "box",
-      "x": 12.0,
-      "y": 3.8
-     },
-     {
-      "type": "text",
-      "text": "Food Heats Up",
-      "x": 13.5,
-      "y": 4.5
+      "at": [
+       4,
+       2
+      ],
+      "label": "Kinetic Energy",
+      "color": "ink"
      }
-    ],
-    "title": "Molecular Kinetic Energy Transfer"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 1,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "The image is extremely simplistic, showing only two plain colored circles representing molecules instead of a detailed close-up molecular animation.",
+     "It fails to depict rotating polar molecules or electrical forces as described in the asset requirements and narration.",
+     "The visual is mostly empty and of very low quality for a science explainer video."
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: circle needs 'r'"
-    ]
+     "Garbled and awkwardly split text within labels, such as 'Molecu le' and 'Neutra I Mole cule'.",
+     "Labels like 'Kinetic Energy' and 'Electrical Forces' are placed with unclear connection to the actual diagram elements."
+    ],
+    "attempt": 2
    },
    {
-    "attempt": 3,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: circle needs 'r'"
-    ]
+     "Text inside the red circle is hyphenated awkwardly as Polar Molecu/le",
+     "Text inside the blue circle is hyphenated awkwardly as Neutra/l Mole/cule",
+     "The label Kinetic Energy is floating without a clear pointer or context"
+    ],
+    "attempt": 3
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -482,43 +597,37 @@
   ],
   "narration": "That job falls to a clever little component called the cavity magnetron, an invention that originally came out of the United Kingdom. This British invention made it possible to generate electromagnetic waves with wavelengths short enough to heat water effectively.",
   "file": "V07.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 2,
   "plan": {
    "id": "V07",
-   "prompt": "A historical photograph of an early cavity magnetron prototype alongside its development blueprint.",
-   "search": "cavity magnetron prototype blueprint"
+   "search": "cavity magnetron british invention",
+   "sub": "British invention that changed cooking forever"
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (8daaafb1-3660-4591-9b5e-2bd98554a873)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
+     "The image shows a cavity magnetron being held, but is missing the required development blueprint alongside it.",
+     "The text on the magnetron indicates US Army Signal Corps (Type 2J32 Sylvania), whereas the narration specifically discusses the early British invention."
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (4373e348-e667-472b-9803-bd4f4aa605a2)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (ed07ae80-1a30-4384-b093-665e3f43deaf)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
+    "pass": true,
+    "score": 5,
+    "issues": [],
+    "attempt": 2
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "photo",
+   "title": "150917-N-PO203-111 (21591639261).jpg",
+   "author": "Office of Naval Research from Arlington, United States",
+   "license": "CC BY 2.0",
+   "page": "https://commons.wikimedia.org/wiki/File:150917-N-PO203-111_(21591639261).jpg",
+   "provider": "Wikimedia Commons"
   }
  },
  {
@@ -533,106 +642,77 @@
   "narration": "Inside the microwave, the magnetron works as an electronic oscillator, converting the direct-current electricity supplied to its vacuum tube into a high-frequency microwave signal. It does this by directing a stream of moving electrons past a ring of hollow cavity resonators, all under the influence of a strong magnetic field. As these electrons interact with the magnetic field and pass the cavities, they generate powerful, oscillating electromagnetic waves.",
   "file": "V08.png",
   "status": "ok",
-  "attempts": 3,
+  "attempts": 1,
   "plan": {
    "id": "V08",
    "diagram": {
+    "title": "Magnetron power conversion",
     "elements": [
      {
       "type": "box",
-      "h": 1.5,
-      "w": 3.0,
-      "x": 1.0,
-      "y": 3.25
+      "at": [
+       1,
+       3,
+       3,
+       3
+      ],
+      "label": "DC Power",
+      "color": "sub",
+      "fill": true
      },
      {
-      "type": "text",
-      "size": "m",
-      "text": "DC Power In",
-      "x": 1.6,
-      "y": 4.0
+      "type": "arrow",
+      "at": [
+       4.2,
+       4.5,
+       6.5,
+       4.5
+      ],
+      "label": "",
+      "color": "ink"
      },
      {
       "type": "circle",
-      "r": 1.5,
-      "x": 7.5,
-      "y": 4.0
-     },
-     {
-      "type": "text",
-      "size": "m",
-      "text": "Vacuum Tube",
-      "x": 6.8,
-      "y": 4.0
-     },
-     {
-      "type": "arrow",
-      "from": [
-       4.0,
-       4.0
+      "at": [
+       8.5,
+       4.5,
+       2
       ],
-      "to": [
-       6.0,
-       4.0
-      ]
-     },
-     {
-      "type": "arrow",
-      "from": [
-       9.0,
-       4.0
-      ],
-      "to": [
-       11.0,
-       4.0
-      ]
+      "label": "Vacuum Tube",
+      "color": "warm",
+      "fill": true
      },
      {
       "type": "wave",
-      "amplitude": 0.4,
-      "cycles": 3.0,
-      "from": [
-       11.5,
-       4.0
-      ],
-      "to": [
+      "at": [
+       11,
+       4.5,
        14.5,
-       4.0
-      ]
+       4.5
+      ],
+      "label": "",
+      "color": "cool"
      },
      {
-      "type": "text",
-      "size": "m",
-      "text": "Microwave Out",
-      "x": 12.0,
-      "y": 5.0
+      "type": "label",
+      "at": [
+       12.75,
+       5.5,
+       12.75,
+       4.5
+      ],
+      "label": "Microwaves",
+      "color": "cool"
      }
-    ],
-    "title": "Magnetron Tube Operation"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'h'"
-    ]
-   },
-   {
     "pass": true,
     "score": 5,
     "issues": [],
-    "attempt": 3
+    "attempt": 1
    }
   ],
   "source": {
@@ -649,61 +729,130 @@
   ],
   "narration": "But generating these waves is only half the job. The next challenge is guiding them safely out of the vacuum tube and into the cooking chamber.",
   "file": "V09.png",
-  "status": "missing",
+  "status": "flagged",
   "attempts": 3,
   "plan": {
    "id": "V09",
    "diagram": {
+    "title": "Waveguide Path To Chamber",
     "elements": [
      {
       "type": "box",
-      "x": 2.0,
-      "y": 3.03058284534721e-85
+      "at": [
+       1,
+       2,
+       3.5,
+       3.5
+      ],
+      "label": "Magnetron",
+      "color": "warm",
+      "fill": true
+     },
+     {
+      "type": "circle",
+      "at": [
+       2.75,
+       3.75,
+       0.4
+      ],
+      "label": "Antenna",
+      "color": "ink",
+      "fill": true
      },
      {
       "type": "box",
-      "x": 6.0,
-      "y": 3.03058284534721e-85
+      "at": [
+       4.5,
+       2.3,
+       4.5,
+       2.9
+      ],
+      "label": "Waveguide",
+      "color": "sub",
+      "fill": false
      },
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.0
+      "type": "wave",
+      "at": [
+       3.3,
+       3.75,
+       8.8,
+       3.75
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "box",
+      "at": [
+       9.0,
+       1,
+       5.5,
+       5.5
+      ],
+      "label": "Cooking Chamber",
+      "color": "ink",
+      "fill": false
+     },
+     {
+      "type": "label",
+      "at": [
+       2.2,
+       6.5,
+       2.75,
+       5.5
+      ],
+      "label": "Vacuum Tube",
+      "color": "sub"
+     },
+     {
+      "type": "label",
+      "at": [
+       11.5,
+       7.0,
+       11.5,
+       5.5
+      ],
+      "label": "Microwave Radiation",
+      "color": "cool"
      }
-    ],
-    "title": "Waveguide Path to Chamber"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 1,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "The asset is a simple 2D block diagram instead of the required three-dimensional cutaway model.",
+     "It does not show the magnetron antenna or trace the path of microwave radiation accurately.",
+     "The visual is extremely basic and lacks sufficient detail for a science explainer video."
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
     "pass": false,
-    "score": 0,
+    "score": 1,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "Garbled, misspelled, or overlapping text on the magnetron label (\"Antenn Magnetron a\").",
+     "Not a three-dimensional cutaway model as requested in the asset description, but rather a basic 2D schematic.",
+     "The label placement and pointer lines are messy and confusing (e.g., Vacuum Tube pointing to a waveguide box)."
+    ],
+    "attempt": 2
    },
    {
-    "attempt": 3,
     "pass": false,
-    "score": 0,
+    "score": 1,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "Garbled, misspelled, and overlapping text for 'Antenn Magnetron a'.",
+     "Does not show a three-dimensional cutaway model as requested in the description."
+    ],
+    "attempt": 3
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -716,56 +865,125 @@
   ],
   "narration": "To keep the microwave radiation from escaping, the cooking compartment is designed to work like a Faraday cage. Even though the metal surfaces around the door don't need to touch continuously, specially designed choke connections along the edges effectively create the same shielding effect at microwave frequencies.",
   "file": "V10.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 2,
   "plan": {
    "id": "V10",
    "diagram": {
+    "title": "Faraday Cage Shielding",
     "elements": [
      {
       "type": "box",
-      "x": 3.0,
-      "y": 1.5000000000000004
+      "at": [
+       3,
+       1,
+       10,
+       6
+      ],
+      "label": "",
+      "color": "sub",
+      "fill": false
      },
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.0
+      "type": "wave",
+      "at": [
+       5,
+       4,
+       8,
+       4
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       8,
+       4,
+       6.5,
+       5.5
+      ],
+      "label": "",
+      "color": "warm"
+     },
+     {
+      "type": "label",
+      "at": [
+       6.5,
+       6.8,
+       6.5,
+       5.5
+      ],
+      "label": "Reflected Wave",
+      "color": "warm"
+     },
+     {
+      "type": "label",
+      "at": [
+       1,
+       4,
+       3,
+       4
+      ],
+      "label": "Metal Cavity Wall",
+      "color": "sub"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       3.2,
+       5,
+       3.2,
+       6
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       3.2,
+       3,
+       3.2,
+       2
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "label",
+      "at": [
+       1.5,
+       2,
+       3.2,
+       2
+      ],
+      "label": "Containment Current",
+      "color": "cool"
      }
-    ],
-    "title": "Faraday Cage Shielding"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "The label 'Metal Cavity Wall' overlaps awkwardly directly over the wave graph, making it difficult to read.",
+     "The diagram lacks electrical containment currents and detailed wireframe rendering of the microwave chamber as requested."
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+    "pass": true,
+    "score": 5,
+    "issues": [],
+    "attempt": 2
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -777,43 +995,28 @@
   ],
   "narration": "The viewing window has its own safety feature too. Behind the clear outer panel sits a conductive metal mesh that helps contain the radiation.",
   "file": "V11.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 1,
   "plan": {
    "id": "V11",
-   "prompt": "A high magnification photograph of the perforated black mesh screen embedded inside an oven door window.",
-   "search": "microwave door mesh screen"
+   "search": "microwave oven door mesh screen",
+   "sub": "Conductive metal mesh traps the radiation inside"
   },
   "checks": [
    {
-    "attempt": 1,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (54e767e2-c632-43bf-889c-8a949bc9147a)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
-   },
-   {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (eb5aae31-e1c0-49d0-9e9c-9707eb139d5d)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Cloudflare FLUX HTTP 400: {\"errors\":[{\"message\":\"AiError: Bad input: Error: Additional or unevaluated properties '/seed' at '/' not allowed (fe846bdb-1009-4a41-87de-3159f95a5921)\",\"code\":5006}],\"success\":false,\"result\":{},\"messages\":[]}"
-    ]
+    "pass": true,
+    "score": 5,
+    "issues": [],
+    "attempt": 1
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "photo",
+   "title": "mesh of light",
+   "author": "gfairchild",
+   "license": "CC BY 2.0",
+   "page": "https://www.flickr.com/photos/36770908@N08/4326688367",
+   "provider": "Openverse (flickr)"
   }
  },
  {
@@ -825,56 +1028,171 @@
   ],
   "narration": "The holes in this mesh are much smaller than the wavelength of microwaves, so the radiation stays inside, while visible light can still pass through and let you see your food.",
   "file": "V12.png",
-  "status": "missing",
+  "status": "ok",
   "attempts": 3,
   "plan": {
    "id": "V12",
    "diagram": {
+    "title": "Mesh wavelength filtering",
     "elements": [
      {
-      "type": "box",
-      "x": 3.0,
-      "y": 1.5000000000000004
+      "type": "line",
+      "at": [
+       8,
+       1,
+       8,
+       7
+      ],
+      "label": "",
+      "color": "ink"
      },
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.0
+      "type": "box",
+      "at": [
+       7.8,
+       3.8,
+       0.4,
+       0.4
+      ],
+      "label": "",
+      "color": "sub",
+      "fill": true
+     },
+     {
+      "type": "box",
+      "at": [
+       7.8,
+       2.6,
+       0.4,
+       0.4
+      ],
+      "label": "",
+      "color": "sub",
+      "fill": true
+     },
+     {
+      "type": "box",
+      "at": [
+       7.8,
+       5.0,
+       0.4,
+       0.4
+      ],
+      "label": "",
+      "color": "sub",
+      "fill": true
+     },
+     {
+      "type": "wave",
+      "at": [
+       2,
+       5.5,
+       7.5,
+       5.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       7.5,
+       5.5,
+       4,
+       5.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "wave",
+      "at": [
+       2,
+       3.2,
+       8.5,
+       3.2
+      ],
+      "label": "",
+      "color": "warm"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       8.5,
+       3.2,
+       14,
+       3.2
+      ],
+      "label": "",
+      "color": "warm"
+     },
+     {
+      "type": "label",
+      "at": [
+       3.5,
+       6.7,
+       4.5,
+       5.5
+      ],
+      "label": "Microwave bounces",
+      "color": "cool"
+     },
+     {
+      "type": "label",
+      "at": [
+       10.5,
+       4.4,
+       10.5,
+       3.2
+      ],
+      "label": "Visible light passes",
+      "color": "warm"
+     },
+     {
+      "type": "label",
+      "at": [
+       8,
+       7.5,
+       8,
+       5.5
+      ],
+      "label": "Metal mesh",
+      "color": "ink"
      }
-    ],
-    "title": "Mesh Wavelength Filtration"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "The diagram is incomplete and poorly drawn, showing only a single line for the mesh and an arbitrary line crossing it instead of actual mesh holes and light rays.",
+     "Visible light is not actually depicted passing through the mesh; there is only a text label on an empty line.",
+     "Does not adequately match the requested side-by-side scale diagram showing short visible light rays traveling through mesh holes while microwaves bounce off."
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: Expecting ',' delimiter: line 6 column 65498 (char 65558)"
-    ]
+     "The diagram only shows the microwave bouncing off and does not show the visible light rays passing through the mesh.",
+     "The scale representation is extremely poor, as the visible light is depicted as a straight line instead of a wave compared to the microwave.",
+     "The mesh is represented as a solid block rather than an actual mesh with holes."
+    ],
+    "attempt": 2
    },
    {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+    "pass": true,
+    "score": 5,
+    "issues": [],
+    "attempt": 3
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -892,39 +1210,170 @@
   "plan": {
    "id": "V13",
    "diagram": {
+    "title": "Cookware and Microwave Interaction",
     "elements": [
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.25
+      "type": "box",
+      "at": [
+       1,
+       2,
+       3,
+       2.5
+      ],
+      "label": "Ceramic dish",
+      "color": "sub",
+      "fill": true
+     },
+     {
+      "type": "box",
+      "at": [
+       6.5,
+       2,
+       3,
+       2.5
+      ],
+      "label": "Aluminum bowl",
+      "color": "warm",
+      "fill": true
+     },
+     {
+      "type": "box",
+      "at": [
+       12,
+       2,
+       3,
+       2.5
+      ],
+      "label": "Permittivity dish",
+      "color": "red",
+      "fill": true
+     },
+     {
+      "type": "wave",
+      "at": [
+       0.5,
+       5.5,
+       3.5,
+       5.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       3.2,
+       5.5,
+       4.3,
+       5.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "wave",
+      "at": [
+       6,
+       5.5,
+       9,
+       5.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "arrow",
+      "at": [
+       8.8,
+       5.5,
+       7.2,
+       5.5
+      ],
+      "label": "",
+      "color": "warm"
+     },
+     {
+      "type": "wave",
+      "at": [
+       11.5,
+       5.5,
+       14.5,
+       5.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "circle",
+      "at": [
+       13.5,
+       3.25,
+       0.6
+      ],
+      "label": "",
+      "color": "red",
+      "fill": true
+     },
+     {
+      "type": "label",
+      "at": [
+       7.5,
+       7,
+       7.5,
+       5.5
+      ],
+      "label": "Reflected",
+      "color": "warm"
+     },
+     {
+      "type": "label",
+      "at": [
+       2.5,
+       7,
+       2.5,
+       5.5
+      ],
+      "label": "Passes through",
+      "color": "cool"
+     },
+     {
+      "type": "label",
+      "at": [
+       13.5,
+       7,
+       13.5,
+       5.5
+      ],
+      "label": "Absorbs energy",
+      "color": "red"
      }
-    ],
-    "title": "Comparison of Cookware Materials"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "Text wrapping error on the third label resulting in misspelled word 'High-perm ittivity'",
+     "Diagram lacks detail for waves passing through ceramic and absorption in high-permittivity dish"
+    ],
+    "attempt": 1
    },
    {
     "pass": false,
-    "score": 1,
+    "score": 2,
     "issues": [
-     "The image is mostly empty and does not contain the required illustrations of ceramic cookware, an aluminum bowl, or a high-permittivity dish under microwave radiation.",
-     "Fails to match the asset description and narration."
+     "The word 'permittivity' is hyphenated awkwardly across lines as 'perm-ittivity'."
+    ],
+    "attempt": 2
+   },
+   {
+    "pass": false,
+    "score": 2,
+    "issues": [
+     "The word 'Permittivity' is awkwardly split and hyphenated across lines ('Permittiv' and 'ity dish') on the third box.",
+     "The visual representations of the dishes are just plain colored squares rather than distinct dish or bowl illustrations."
     ],
     "attempt": 3
    }
@@ -944,56 +1393,84 @@
   ],
   "narration": "When these waves hit suitable food, radiation at two point four five gigahertz typically penetrates only about one centimeter into it. In food with plenty of moisture and a fairly uniform composition, reasonably consistent heating happens only within the outer twenty-five to thirty-eight millimeters.",
   "file": "V14.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 1,
   "plan": {
    "id": "V14",
    "diagram": {
+    "title": "Wave Penetration Depth",
     "elements": [
      {
       "type": "box",
-      "x": 3.0,
-      "y": 2.055375549887754
+      "at": [
+       3,
+       1.5,
+       10,
+       5
+      ],
+      "label": "Food item",
+      "color": "sub",
+      "fill": true
      },
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.0
+      "type": "wave",
+      "at": [
+       1,
+       4,
+       3,
+       4
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "box",
+      "at": [
+       3,
+       1.5,
+       2.5,
+       5
+      ],
+      "label": "Outer layer",
+      "color": "red",
+      "fill": true
+     },
+     {
+      "type": "line",
+      "at": [
+       5.5,
+       1,
+       5.5,
+       7
+      ],
+      "label": "",
+      "color": "ink"
+     },
+     {
+      "type": "label",
+      "at": [
+       5.5,
+       7.2,
+       5.5,
+       6.5
+      ],
+      "label": "1 centimeter limit",
+      "color": "ink"
      }
-    ],
-    "title": "Shallow Penetration Depth"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: Expecting ',' delimiter: line 6 column 65496 (char 65556)"
-    ]
+    "pass": true,
+    "score": 5,
+    "issues": [],
+    "attempt": 1
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -1006,98 +1483,96 @@
   ],
   "narration": "There's another problem. When microwaves bounce around inside an empty cooking chamber, they create uneven patterns of energy, leaving some areas of your food scorching hot while others remain barely warm. That's why modern microwaves use a rotating turntable, a microwave stirrer fan, or even multiple magnetrons to distribute the energy more evenly.",
   "file": "V15.png",
-  "status": "missing",
-  "attempts": 3,
+  "status": "ok",
+  "attempts": 1,
   "plan": {
    "id": "V15",
    "diagram": {
+    "title": "Standing Waves and Hot Spots",
     "elements": [
      {
       "type": "box",
-      "x": 2.0,
-      "y": 1.5000000000000004
-     },
-     {
-      "type": "box",
-      "x": 2.5000000000000004,
-      "y": 1.5000000000000004
-     },
-     {
-      "type": "circle",
-      "x": 4.0,
-      "y": 4.5
+      "at": [
+       2,
+       1,
+       12,
+       6
+      ],
+      "label": "Oven cavity",
+      "color": "ink",
+      "fill": false
      },
      {
       "type": "circle",
-      "x": 7.0,
-      "y": 4.5
+      "at": [
+       4,
+       4,
+       1.2
+      ],
+      "label": "Hot spot",
+      "color": "red",
+      "fill": true
      },
      {
       "type": "circle",
-      "x": 10.0,
-      "y": 4.5
+      "at": [
+       12,
+       4,
+       1.2
+      ],
+      "label": "Hot spot",
+      "color": "red",
+      "fill": true
+     },
+     {
+      "type": "circle",
+      "at": [
+       8,
+       2.5,
+       0.8
+      ],
+      "label": "Cold spot",
+      "color": "blue",
+      "fill": true
      },
      {
       "type": "wave",
-      "from": [
-       2.5,
+      "at": [
+       3,
+       6.5,
+       13,
        6.5
       ],
-      "to": [
-       11.5,
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "label",
+      "at": [
+       8,
+       7.1,
+       8,
        6.5
-      ]
-     },
-     {
-      "type": "arrow",
-      "from": [
-       12.0,
-       4.5
       ],
-      "to": [
-       14.0,
-       4.5
-      ]
-     },
-     {
-      "type": "text",
-      "x": 14.0,
-      "y": 5.0
+      "label": "Uneven patterns",
+      "color": "cool"
      }
-    ],
-    "title": "Standing Waves and Hot Spots"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
-    "pass": false,
-    "score": 0,
+    "pass": true,
+    "score": 4,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 2,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
-   },
-   {
-    "attempt": 3,
-    "pass": false,
-    "score": 0,
-    "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "The text 'Uneven patterns' slightly overlaps with the top boundary line of the oven cavity."
+    ],
+    "attempt": 1
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -1111,56 +1586,130 @@
   ],
   "narration": "So, a microwave heats food by using an oscillating electric field to make polar molecules like water constantly twist and move, turning that molecular motion into heat. The cavity magnetron generates these waves, while the conductive mesh and specially designed door seals keep the radiation safely contained. And because microwaves only penetrate a relatively shallow layer and create uneven heating patterns, turntables and stirrers help make sure your food warms up more evenly.",
   "file": "V16.png",
-  "status": "missing",
+  "status": "flagged",
   "attempts": 3,
   "plan": {
    "id": "V16",
    "diagram": {
+    "title": "Microwave Heating Mechanism",
     "elements": [
      {
       "type": "box",
-      "x": 1.0,
-      "y": 2.0000000000000004
+      "at": [
+       1,
+       3,
+       3,
+       3
+      ],
+      "label": "Magnetron",
+      "color": "warm",
+      "fill": true
      },
      {
-      "type": "text",
-      "x": 8.0,
-      "y": 8.0
+      "type": "wave",
+      "at": [
+       4.2,
+       4.5,
+       7.5,
+       4.5
+      ],
+      "label": "",
+      "color": "cool"
+     },
+     {
+      "type": "box",
+      "at": [
+       7.8,
+       1.5,
+       7,
+       6
+      ],
+      "label": "Shielded Oven",
+      "color": "ink",
+      "fill": false
+     },
+     {
+      "type": "circle",
+      "at": [
+       10.5,
+       4.5,
+       1.2
+      ],
+      "label": "Water Molecule",
+      "color": "red",
+      "fill": true
+     },
+     {
+      "type": "box",
+      "at": [
+       9.3,
+       1.8,
+       4.5,
+       0.4
+      ],
+      "label": "Turntable",
+      "color": "sub",
+      "fill": true
+     },
+     {
+      "type": "label",
+      "at": [
+       5.5,
+       7.2,
+       5.8,
+       4.5
+      ],
+      "label": "Electric Field",
+      "color": "cool"
+     },
+     {
+      "type": "label",
+      "at": [
+       13,
+       7.2,
+       11.3,
+       4.5
+      ],
+      "label": "Mesh Seal",
+      "color": "sub"
      }
-    ],
-    "title": "Microwave Heating Summary"
+    ]
    }
   },
   "checks": [
    {
-    "attempt": 1,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "Overlapping text makes 'Polar Oven cavity molecules' unreadable.",
+     "The diagram lacks key components mentioned in the narration, such as the shielded oven chamber/mesh and turntables."
+    ],
+    "attempt": 1
    },
    {
-    "attempt": 2,
     "pass": false,
-    "score": 0,
+    "score": 2,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "Garbled text overlapping inside the red circle reading 'Watered Cavity'",
+     "Missing the rotating polar molecule visual mentioned in the description",
+     "Label 'Electric Field' points to empty space above the magnetron instead of the waves"
+    ],
+    "attempt": 2
    },
    {
-    "attempt": 3,
     "pass": false,
-    "score": 0,
+    "score": 1,
     "issues": [
-     "could not be made: element 1: box needs 'w'"
-    ]
+     "Garbled and overlapping text where 'Water Molecule' and 'Shielded Oven' are mashed together inside the red circle.",
+     "The label pointer for 'Mesh Seal' points incorrectly to the center of the water molecule instead of the oven boundary.",
+     "The red circle representing a water molecule is incorrectly labeled as the 'Shielded Oven' or overlapping with it in a confusing way."
+    ],
+    "attempt": 3
    }
   ],
   "source": {
-   "type": "text",
-   "made_by": "code (Pillow)",
-   "note": "placeholder after failed attempts"
+   "type": "diagram",
+   "made_by": "code (matplotlib), layout by Gemini"
   }
  },
  {
@@ -1177,7 +1726,7 @@
   "plan": {
    "id": "V17",
    "headline": "How do you eliminate cold spots in your microwave?",
-   "sub": "Share your best heating trick below"
+   "sub": "Share your best heating tricks below"
   },
   "checks": [
    {

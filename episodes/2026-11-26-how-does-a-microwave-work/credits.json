@@ -1,1 +1,20 @@
-[]
+[
+ {
+  "type": "photo",
+  "title": "150917-N-PO203-111 (21591639261).jpg",
+  "author": "Office of Naval Research from Arlington, United States",
+  "license": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:150917-N-PO203-111_(21591639261).jpg",
+  "provider": "Wikimedia Commons",
+  "visual": "V07"
+ },
+ {
+  "type": "photo",
+  "title": "mesh of light",
+  "author": "gfairchild",
+  "license": "CC BY 2.0",
+  "page": "https://www.flickr.com/photos/36770908@N08/4326688367",
+  "provider": "Openverse (flickr)",
+  "visual": "V11"
+ }
+]
