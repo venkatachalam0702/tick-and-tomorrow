@@ -79,15 +79,23 @@ def _try_model(model, body, role, purpose, want_json, cfg):
             last_err = str(e)[:300]
         else:
             if r.status_code == 200:
-                return (_parse(r.json(), want_json),)
-            # Never echo headers (they carry the key); the body is safe to show.
-            last_err = f"HTTP {r.status_code}: {r.text[:300]}"
-            if r.status_code == 429 and "per day" in r.text.lower():
-                return f"daily free-tier quota used up ({last_err})"
-            if r.status_code not in (429, 500, 502, 503, 504):
-                raise GeminiError(f"Gemini rejected the request ({model}, {purpose}): {last_err}")
+                data = r.json()
+                try:
+                    return (_parse(data, want_json),)
+                except (GeminiError, ValueError) as e:
+                    # Cut-off or malformed reply (e.g. MAX_TOKENS: thinking tokens count against the cap).
+                    # Ask again; after the retries, move on to the fallback model.
+                    finish = ((data.get("candidates") or [{}])[0] or {}).get("finishReason", "?")
+                    last_err = f"unusable reply (finishReason {finish}): {str(e)[:200]}"
+            else:
+                # Never echo headers (they carry the key); the body is safe to show.
+                last_err = f"HTTP {r.status_code}: {r.text[:300]}"
+                if r.status_code == 429 and "per day" in r.text.lower():
+                    return f"daily free-tier quota used up ({last_err})"
+                if r.status_code not in (429, 500, 502, 503, 504):
+                    raise GeminiError(f"Gemini rejected the request ({model}, {purpose}): {last_err}")
         if attempt < cfg["max_retries"]:
-            wait = cfg["retry_wait_seconds"] * attempt
+            wait = 5 if last_err.startswith("unusable reply") else cfg["retry_wait_seconds"] * attempt
             print(f"[warn] {model} attempt {attempt} failed ({last_err[:80]}...); waiting {wait}s")
             time.sleep(wait)
     return last_err
@@ -104,7 +112,10 @@ def _parse(data: dict, want_json: bool) -> str | dict:
     text = text.strip()
     if text.startswith("```"):
         text = text.strip("`").removeprefix("json").strip()
-    return json.loads(text)
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as e:
+        raise GeminiError(f"reply is not valid JSON ({e}); starts: {text[:120]!r}") from e
 
 
 def usage_summary() -> str:
