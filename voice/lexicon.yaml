@@ -1,0 +1,5 @@
+# Words the AI voice mispronounces: word -> IPA phonemes (Kokoro/misaki format).
+# The script's "Pronunciation" list is a human hint; add an IPA line here only when a
+# sample actually sounds wrong. Example:
+#   magnetron: ˈmæɡnətɹɑn
+words: {}

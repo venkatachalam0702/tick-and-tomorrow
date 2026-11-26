@@ -11,8 +11,9 @@ Nothing moves past a gate without Venkat, and nothing is ever published automati
 | 1 | Topic suggestions | Mondays 06:00 UTC, or **Actions → 1. Suggest topics → Run workflow** | Issue labelled `gate-1-topic` with 5 ranked ideas | Comment `/approve 1` (or any number) |
 | 2 | Research | Your `/approve` comment, or **Actions → 2. Research → Run workflow** | Pull request labelled `gate-2-factcheck` with `facts.md` | Delete or fix doubtful claims, then merge |
 | 3 | Script | Merging a fact-check PR, or **Actions → 3. Script → Run workflow** with the episode folder | Pull request labelled `gate-3-script` with `script.md` | Edit wording and the hook in place, then merge |
+| 4 | Voice | Merging a script PR, or **Actions → 4. Voice → Run workflow** | `narration.mp3` / `.wav` as a run artifact (7 days); `timings.json` and `captions.srt` committed | Listen (optional). Pick the channel voice once with mode `samples` |
 
-Coming next: voice, visuals, assembly, private upload (Gate 4), Shorts, news scanner.
+Coming next: visuals, assembly, private upload (Gate 4), Shorts, news scanner.
 
 Format: one main video of 5 minutes max per week, plus 2 standalone Shorts (quick updates, written as their own short scripts, not cut from the main video).
 
@@ -35,12 +36,20 @@ Format: one main video of 5 minutes max per week, plus 2 standalone Shorts (quic
 
 Gemini budget per episode so far: 1 Flash-Lite call + 1 Flash call for research, 1 to 2 Flash calls for the script (free tier allows ~20 Flash calls a day).
 
+## Voice
+
+Kokoro-82M (Apache 2.0) runs on the free Actions CPU, one sentence at a time, and its own word timestamps
+give `timings.json` (sentence and word start/end) and `captions.srt`. Audio is normalised to -14 LUFS.
+The voice is set in `config.yaml` (`voice.voice`); `af_heart,af_bella` style values blend two voices.
+If a word is mispronounced, add its IPA to `voice/lexicon.yaml`.
+
 ## Files
 
 ```
 config.yaml              model names, limits, trusted source domains (one-line swaps)
 topics/backlog.yaml      evergreen topic ideas; add your own any time
 prompts/                 the prompts sent to Gemini (plain text, edit freely)
+voice/lexicon.yaml       pronunciation fixes for the AI voice
 pipeline/                Python code for each stage
 episodes/<date>-<slug>/  one folder per video: topic.yaml, sources/, facts.md, facts.json
 .github/workflows/       the automation

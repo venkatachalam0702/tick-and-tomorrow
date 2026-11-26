@@ -1,0 +1,119 @@
+name: "4. Voice (Kokoro narration)"
+# Starts when a Gate 3 script pull request is merged, or by hand from the Actions tab.
+# Mode "samples" renders the hook with every candidate voice so you can pick the channel voice.
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: "Episode folder, e.g. episodes/2026-11-26-how-does-a-microwave-work"
+        required: true
+      mode:
+        description: "narrate = full voice-over, samples = short clip in each candidate voice"
+        type: choice
+        options: [narrate, samples]
+        default: narrate
+      voice:
+        description: "Voice override, e.g. af_bella or af_heart,af_bella (optional)"
+        required: false
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: voice
+  cancel-in-progress: false
+jobs:
+  voice:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       contains(github.event.pull_request.labels.*.name, 'gate-3-script'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MODE: ${{ inputs.mode || 'narrate' }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-voice.txt
+      - name: Install system tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg >/dev/null
+      - run: pip install -r requirements.txt -r requirements-voice.txt
+      - name: Cache the Kokoro model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: kokoro-82m-v1
+
+      - name: Find the episode folder
+        id: ep
+        env:
+          IN_EPISODE: ${{ inputs.episode }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          if [ -n "$IN_EPISODE" ]; then
+            ep="${IN_EPISODE%/}"
+          else
+            ep=$(gh pr diff "$PR" --name-only | grep -E '^episodes/[^/]+/script\.md$' | head -n 1 | xargs -r dirname)
+          fi
+          if [ -z "$ep" ] || [ ! -f "$ep/script.md" ]; then
+            echo "::error::No script.md found for episode '$ep'"; exit 1
+          fi
+          echo "dir=$ep" >> "$GITHUB_OUTPUT"
+          echo "slug=$(basename "$ep")" >> "$GITHUB_OUTPUT"
+
+      - name: Check the script once more
+        run: python -m pipeline.script lint "${{ steps.ep.outputs.dir }}/script.md"
+
+      - name: Generate the voice
+        env:
+          EP: ${{ steps.ep.outputs.dir }}
+          VOICE: ${{ inputs.voice }}
+        run: |
+          python -u -m pipeline.voice "$MODE" "$EP" ${VOICE:+--voice "$VOICE"} --out out
+          ls -la out
+
+      - name: Upload the audio
+        uses: actions/upload-artifact@v4
+        with:
+          name: voice-${{ env.MODE }}-${{ steps.ep.outputs.slug }}
+          path: |
+            out/*.mp3
+            out/*.wav
+            ${{ steps.ep.outputs.dir }}/captions.srt
+            ${{ steps.ep.outputs.dir }}/timings.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Save timings and captions
+        if: env.MODE == 'narrate'
+        env:
+          EP: ${{ steps.ep.outputs.dir }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          python - "$EP/topic.yaml" <<'PY'
+          import sys, yaml
+          p = sys.argv[1]; t = yaml.safe_load(open(p))
+          t["status"] = "voiced"
+          open(p, "w").write(yaml.safe_dump(t, sort_keys=False, allow_unicode=True))
+          PY
+          git config user.name "tick-and-tomorrow-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$EP/timings.json" "$EP/captions.srt" "$EP/topic.yaml"
+          git commit -m "Voice: timings and captions for $(basename "$EP")"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push origin HEAD:main && break; sleep 5; done
+          run="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          echo "Listen: open $run and download the **voice-narrate** artifact (narration.mp3)." >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$PR" ]; then
+            gh pr comment "$PR" --body "Voice-over ready. Download **narration.mp3** from the artifacts at the bottom of $run"
+          fi
