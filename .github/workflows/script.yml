@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
     inputs:
       episode:
-        description: "Episode folder, e.g. episodes/2026-11-26-how-does-a-microwave-work"
-        required: true
+        description: "Episode folder (leave empty for the newest episode)"
+        required: false
 permissions:
   contents: write
   pull-requests: write
@@ -44,6 +44,8 @@ jobs:
         run: |
           if [ -n "$IN_EPISODE" ]; then
             ep="${IN_EPISODE%/}"
+          elif [ -z "$PR" ]; then
+            ep=$(ls -d episodes/*/ 2>/dev/null | sed 's#/$##' | while read -r d; do [ -f "$d/facts.md" ] && echo "$d"; done | sort | tail -n 1)
           else
             ep=$(gh pr diff "$PR" --name-only | grep -E '^episodes/[^/]+/facts\.md$' | head -n 1 | xargs -r dirname)
           fi
