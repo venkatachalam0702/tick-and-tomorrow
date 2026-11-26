@@ -257,11 +257,26 @@ def render_script_md(title: str, script: Script, result: LintResult, cfg: dict |
     return "\n".join(out) + "\n"
 
 
+def _script_body(md: str) -> str:
+    """The part between the markers; tolerates edits that dropped them."""
+    start = md.find(SCRIPT_START)
+    if start >= 0:
+        body = md[start + len(SCRIPT_START):]
+    else:  # marker deleted while editing: start at the first known section heading
+        m = re.search(r"^## (Hook|Promise|Chapter)\b", md, re.M | re.I)
+        if not m:
+            raise ValueError("script.md has no '## Hook' (or SCRIPT START marker) to start from.")
+        body = md[m.start():]
+    for end in (SCRIPT_END, "\n## Pronunciation"):
+        if end in body:
+            body = body.split(end, 1)[0]
+            break
+    return body
+
+
 def parse_script_md(md: str) -> Script:
     """Read a (possibly human-edited) script.md back into a Script."""
-    if SCRIPT_START not in md or SCRIPT_END not in md:
-        raise ValueError("script.md is missing the SCRIPT START/END markers.")
-    body = md.split(SCRIPT_START, 1)[1].split(SCRIPT_END, 1)[0]
+    body = _script_body(md)
     sections: list[Section] = []
     for raw in body.splitlines():
         line = raw.strip()
