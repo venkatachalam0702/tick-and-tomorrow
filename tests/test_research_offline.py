@@ -31,6 +31,8 @@ def test_research_run_writes_episode(tmp_path, monkeypatch):
 
     monkeypatch.setattr(gemini, "generate", fake_generate)
     gemini.CALL_LOG.clear()
+    out = tmp_path / "gh_output"
+    monkeypatch.setenv("GITHUB_OUTPUT", str(out))
     ep = research.run("How does a microwave work?", "Microwave oven", episodes_dir=tmp_path)
 
     topic = yaml.safe_load((ep / "topic.yaml").read_text())
@@ -39,6 +41,7 @@ def test_research_run_writes_episode(tmp_path, monkeypatch):
     claims = parse_facts_md((ep / "facts.md").read_text())
     assert [c["claim"] for c in claims] == ["A magnetron makes the microwaves."]
     assert len(gemini.CALL_LOG) == 2
+    assert out.read_text() == f"dir={ep}\n"
 
 
 def test_domain_filter():

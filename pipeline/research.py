@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -196,7 +197,12 @@ def run(title: str, wiki: str = "", extra_urls: list[str] | None = None,
     write_episode(ep, title, wiki or (p["wikipedia_titles"][0] if p["wikipedia_titles"] else ""),
                   p, sources, data.get("claims", []))
     print("Gemini usage:", gemini.usage_summary())
-    print(ep.relative_to(ROOT) if ep.is_relative_to(ROOT) else ep)
+    rel = ep.relative_to(ROOT) if ep.is_relative_to(ROOT) else ep
+    out = os.environ.get("GITHUB_OUTPUT")
+    if out:  # hand the folder to the next workflow step
+        with open(out, "a", encoding="utf-8") as f:
+            f.write(f"dir={rel}\n")
+    print(f"Episode folder: {rel}")
     return ep
 
 

@@ -30,41 +30,59 @@ def _key() -> str:
     return key
 
 
-def model_name(role: str) -> str:
-    """role is 'writer' (Flash, scarce) or 'helper' (Flash-Lite, plentiful)."""
-    return config.load()["gemini"][f"{role}_model"]
+def models_for(role: str) -> list[str]:
+    cfg = config.load()["gemini"]
+    return [cfg[f"{role}_model"], *cfg.get(f"{role}_fallbacks", [])]
 
 
 def generate(prompt: str, *, role: str = "helper", json_schema: dict | None = None,
              temperature: float | None = None, purpose: str = "") -> str | dict:
-    """Send one prompt. Returns parsed JSON when json_schema is given, else text."""
+    """Send one prompt. Returns parsed JSON when json_schema is given, else text.
+
+    Overload (503) and rate limits (429) are retried with growing waits; if the main model
+    stays unavailable, the role's fallback models are tried in order.
+    """
     cfg = config.load()["gemini"]
-    model = model_name(role)
     gen_cfg: dict = {"temperature": cfg["temperature"] if temperature is None else temperature}
     if json_schema is not None:
         gen_cfg["responseMimeType"] = "application/json"
         gen_cfg["responseSchema"] = json_schema
     body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}], "generationConfig": gen_cfg}
 
+    errors = []
+    for model in models_for(role):
+        err = _try_model(model, body, role, purpose, json_schema is not None, cfg)
+        if not isinstance(err, str):
+            return err[0]
+        errors.append(f"{model}: {err}")
+        print(f"[warn] {model} unavailable for {purpose!r}; trying next model if any.")
+    raise GeminiError(f"Gemini call failed ({purpose}). " + " | ".join(errors))
+
+
+def _try_model(model, body, role, purpose, want_json, cfg):
+    """Return (result,) on success, or an error string to move on to the next model."""
     last_err = ""
     for attempt in range(1, cfg["max_retries"] + 1):
         CALL_LOG.append({"model": model, "role": role, "purpose": purpose, "attempt": attempt})
         try:
             r = requests.post(API.format(model=model), json=body, timeout=300,
                               headers={"x-goog-api-key": _key()})
-        except requests.RequestException as e:  # network blip
-            last_err = str(e)
+        except requests.RequestException as e:  # network blip or timeout
+            last_err = str(e)[:300]
         else:
             if r.status_code == 200:
-                return _parse(r.json(), json_schema is not None)
+                return (_parse(r.json(), want_json),)
             # Never echo headers (they carry the key); the body is safe to show.
-            last_err = f"HTTP {r.status_code}: {r.text[:500]}"
-            if r.status_code not in (429, 500, 502, 503, 504):
-                break
+            last_err = f"HTTP {r.status_code}: {r.text[:300]}"
             if r.status_code == 429 and "per day" in r.text.lower():
-                raise GeminiError(f"Daily free-tier quota for {model} is used up. Try again after midnight Pacific. {last_err}")
-        time.sleep(cfg["retry_wait_seconds"] * attempt)
-    raise GeminiError(f"Gemini call failed ({model}, {purpose}): {last_err}")
+                return f"daily free-tier quota used up ({last_err})"
+            if r.status_code not in (429, 500, 502, 503, 504):
+                raise GeminiError(f"Gemini rejected the request ({model}, {purpose}): {last_err}")
+        if attempt < cfg["max_retries"]:
+            wait = cfg["retry_wait_seconds"] * attempt
+            print(f"[warn] {model} attempt {attempt} failed ({last_err[:80]}...); waiting {wait}s")
+            time.sleep(wait)
+    return last_err
 
 
 def _parse(data: dict, want_json: bool) -> str | dict:
@@ -82,6 +100,7 @@ def _parse(data: dict, want_json: bool) -> str | dict:
 
 
 def usage_summary() -> str:
+    """Requests per model (role 'writer' is Flash and scarce; 'helper' is Flash-Lite)."""
     if not CALL_LOG:
         return "No Gemini calls."
     by_model: dict[str, int] = {}

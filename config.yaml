@@ -6,8 +6,11 @@ gemini:
   # Pin an exact name (e.g. from AI Studio) if an alias ever moves to a paid-only model.
   writer_model: gemini-flash-latest        # facts, script, metadata (free tier ~20 requests/day)
   helper_model: gemini-flash-lite-latest   # small helper jobs (free tier ~500 requests/day)
-  max_retries: 3
-  retry_wait_seconds: 20
+  # If a model is overloaded (HTTP 503) or rate-limited, retry, then try the next fallback model.
+  writer_fallbacks: [gemini-flash-lite-latest]
+  helper_fallbacks: []
+  max_retries: 4                 # attempts per model
+  retry_wait_seconds: 30         # wait grows: 30 s, 60 s, 90 s
   temperature: 0.3
 
 channel:
