@@ -117,6 +117,5 @@ Every quote below was checked by code against the saved source text in `sources/
 - **S4** [Faraday cage (Wikipedia)](https://en.wikipedia.org/wiki/Faraday_cage) · wikipedia · fetched 2026-11-26 · `sources/S4.md`
 - **S5** [Why are the microwaves in a microwave oven tuned to water?](http://wtamu.edu/~cbaird/sq/2014/10/15/why-are-the-microwaves-in-a-microwave-oven-tuned-to-water/) · reference · fetched 2026-11-26 · `sources/S5.md`
 - **S6** [Environmental assessment of microwaves and the effect of European energy efficiency and waste management legislation](https://www.research.manchester.ac.uk/portal/en/publications/environmental-assessment-of-microwaves-and-the-effect-of-european-energy-efficiency-and-waste-management-legislation(ac7e65c2-c53e-4d0f-9bc8-b03ceb65541f).html) · reference · fetched 2026-11-26 · `sources/S6.md`
-- **S7** [Microbiome analysis and confocal microscopy of used kitchen sponges reveal massive colonization by Acinetobacter, Moraxella and Chryseobacterium species](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5517580) · reference · fetched 2026-11-26 · `sources/S7.md`
 
 <sub>Gemini usage for this run: gemini-flash-lite-latest: 2 request(s), gemini-flash-latest: 4 request(s)</sub>
