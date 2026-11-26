@@ -1,0 +1,93 @@
+name: "5. Visuals (diagrams, photos, illustrations)"
+# Starts when a Gate 3 script pull request is merged (alongside the voice), or by hand.
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: "Episode folder (leave empty for the newest episode)"
+        required: false
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: visuals
+  cancel-in-progress: false
+jobs:
+  visuals:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       contains(github.event.pull_request.labels.*.name, 'gate-3-script'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Find the episode folder
+        id: ep
+        env:
+          IN_EPISODE: ${{ inputs.episode }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          if [ -n "$IN_EPISODE" ]; then
+            ep="${IN_EPISODE%/}"
+          elif [ -n "$PR" ]; then
+            ep=$(gh pr diff "$PR" --name-only | grep -E '^episodes/[^/]+/script\.md$' | head -n 1 | xargs -r dirname)
+          else
+            ep=$(ls -d episodes/*/ 2>/dev/null | sed 's#/$##' | while read -r d; do [ -f "$d/script.md" ] && echo "$d"; done | sort | tail -n 1)
+          fi
+          if [ -z "$ep" ] || [ ! -f "$ep/script.md" ]; then
+            echo "::error::No script.md found for episode '$ep'"; exit 1
+          fi
+          echo "Episode: $ep"
+          echo "dir=$ep" >> "$GITHUB_OUTPUT"
+          echo "slug=$(basename "$ep")" >> "$GITHUB_OUTPUT"
+
+      - name: Make and check the visuals
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          EP: ${{ steps.ep.outputs.dir }}
+        run: |
+          set -o pipefail
+          python -u -m pipeline.visuals make "$EP" --out out | tee visuals.log
+
+      - name: Upload the images
+        uses: actions/upload-artifact@v4
+        with:
+          name: visuals-${{ steps.ep.outputs.slug }}
+          path: |
+            out/contact_sheet.jpg
+            out/visuals/*.png
+          if-no-files-found: error
+          retention-days: 5
+
+      - name: Save the visual list and credits
+        env:
+          EP: ${{ steps.ep.outputs.dir }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          git config user.name "tick-and-tomorrow-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$EP/visuals.json" "$EP/credits.json"
+          git commit -m "Visuals: cue list and credits for $(basename "$EP")" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin main && git push origin HEAD:main && break; sleep 5; done
+          run="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          summary=$(grep -E '^Done:|^  V[0-9]+' visuals.log | head -n 20)
+          { echo "### Visuals"; echo '```'; echo "$summary"; echo '```'; echo "Download **contact_sheet.jpg** from the artifact on this run."; } >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$PR" ]; then
+            gh pr comment "$PR" --body "$(printf 'Visuals ready. Download the contact sheet from the artifact at the bottom of %s\n\n```\n%s\n```' "$run" "$summary")"
+          fi

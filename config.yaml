@@ -98,3 +98,8 @@ voice:
     - am_michael
     - am_fenrir
     - bf_emma
+
+visuals:
+  max_attempts: 3           # per asset: first try + 2 retries after a failed vision check
+  min_qa_score: 3           # vision check score 1-5 needed to pass
+  photo_fallback: illustration   # if no licensed photo passes, draw an illustration instead

@@ -13,7 +13,9 @@ Nothing moves past a gate without Venkat, and nothing is ever published automati
 | 3 | Script | Merging a fact-check PR, or **Actions → 3. Script → Run workflow** with the episode folder | Pull request labelled `gate-3-script` with `script.md` | Edit wording and the hook in place, then merge |
 | 4 | Voice | Merging a script PR, or **Actions → 4. Voice → Run workflow** | `narration.mp3` / `.wav` as a run artifact (7 days); `timings.json` and `captions.srt` committed | Listen (optional). Pick the channel voice once with mode `samples` |
 
-Coming next: visuals, assembly, private upload (Gate 4), Shorts, news scanner.
+| 5 | Visuals | Merging a script PR, or **Actions → 5. Visuals → Run workflow** | One 1920x1080 image per visual cue + `contact_sheet.jpg` (artifact, 5 days); `visuals.json`, `credits.json` committed | Glance at the contact sheet; assets marked CHECK failed the vision check |
+
+Coming next: assembly, private upload (Gate 4), Shorts, news scanner.
 
 Format: one main video of 5 minutes max per week, plus 2 standalone Shorts (quick updates, written as their own short scripts, not cut from the main video).
 
@@ -42,6 +44,17 @@ Kokoro-82M (Apache 2.0) runs on the free Actions CPU, one sentence at a time, an
 give `timings.json` (sentence and word start/end) and `captions.srt`. Audio is normalised to -14 LUFS.
 The voice is set in `config.yaml` (`voice.voice`); `af_heart,af_bella` style values blend two voices.
 If a word is mispronounced, add its IPA to `voice/lexicon.yaml`.
+
+## Visuals
+
+- **Diagrams**: Gemini writes a simple layout (boxes, circles, arrows, waves, labels); code draws it in the channel
+  colours, so labels are always spelled right.
+- **Photos**: Wikimedia Commons, then Openverse, only Public domain / CC0 / CC BY / CC BY-SA. Author and license go to
+  `credits.json` for the description. If no licensed photo passes, an illustration is drawn instead.
+- **Illustrations**: FLUX.1 schnell on Cloudflare Workers AI (free daily allowance), with a locked brand style.
+- **Text cards**: drawn by code.
+- Every image is checked by Gemini vision (match with the cue, correctness, garbled text, watermarks, logos) and
+  remade up to 2 more times. Anything still failing is marked CHECK on the contact sheet for your final review.
 
 ## Files
 

@@ -5,6 +5,7 @@ models, so only public material (fetched web sources, our own drafts) is ever se
 """
 from __future__ import annotations
 
+import base64
 import json
 import os
 import time
@@ -35,8 +36,9 @@ def models_for(role: str) -> list[str]:
     return [cfg[f"{role}_model"], *cfg.get(f"{role}_fallbacks", [])]
 
 
-def generate(prompt: str, *, role: str = "helper", json_schema: dict | None = None,
-             temperature: float | None = None, purpose: str = "") -> str | dict:
+def generate(prompt: str, *, role: str = "helper", json_schema: dict | bool | None = None,
+             temperature: float | None = None, purpose: str = "",
+             images: list[tuple[bytes, str]] | None = None) -> str | dict:
     """Send one prompt. Returns parsed JSON when json_schema is given, else text.
 
     Overload (503) and rate limits (429) are retried with growing waits; if the main model
@@ -44,10 +46,14 @@ def generate(prompt: str, *, role: str = "helper", json_schema: dict | None = No
     """
     cfg = config.load()["gemini"]
     gen_cfg: dict = {"temperature": cfg["temperature"] if temperature is None else temperature}
-    if json_schema is not None:
+    if json_schema is not None:  # a schema dict, or True for "any JSON"
         gen_cfg["responseMimeType"] = "application/json"
-        gen_cfg["responseSchema"] = json_schema
-    body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}], "generationConfig": gen_cfg}
+        if isinstance(json_schema, dict) and json_schema:
+            gen_cfg["responseSchema"] = json_schema
+    parts: list[dict] = [{"text": prompt}]
+    for data, mime in images or []:  # vision: (bytes, "image/png")
+        parts.append({"inline_data": {"mime_type": mime, "data": base64.b64encode(data).decode()}})
+    body = {"contents": [{"role": "user", "parts": parts}], "generationConfig": gen_cfg}
 
     errors = []
     for model in models_for(role):

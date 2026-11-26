@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
     inputs:
       episode:
-        description: "Episode folder, e.g. episodes/2026-11-26-how-does-a-microwave-work"
-        required: true
+        description: "Episode folder (leave empty for the newest episode)"
+        required: false
       mode:
         description: "narrate = full voice-over, samples = short clip in each candidate voice"
         type: choice
@@ -63,6 +63,8 @@ jobs:
         run: |
           if [ -n "$IN_EPISODE" ]; then
             ep="${IN_EPISODE%/}"
+          elif [ -z "$PR" ]; then
+            ep=$(ls -d episodes/*/ 2>/dev/null | sed 's#/$##' | while read -r d; do [ -f "$d/script.md" ] && echo "$d"; done | sort | tail -n 1)
           else
             ep=$(gh pr diff "$PR" --name-only | grep -E '^episodes/[^/]+/script\.md$' | head -n 1 | xargs -r dirname)
           fi
@@ -72,8 +74,8 @@ jobs:
           echo "dir=$ep" >> "$GITHUB_OUTPUT"
           echo "slug=$(basename "$ep")" >> "$GITHUB_OUTPUT"
 
-      - name: Check the script once more
-        run: python -m pipeline.script lint "${{ steps.ep.outputs.dir }}/script.md"
+      - name: Check the script once more (report only; you already approved it)
+        run: python -m pipeline.script lint "${{ steps.ep.outputs.dir }}/script.md" || echo "::warning::Script checks found issues (see above); continuing because the script was approved."
 
       - name: Generate the voice
         env:

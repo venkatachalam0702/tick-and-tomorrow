@@ -113,3 +113,12 @@ def test_write_refuses_with_too_few_facts(tmp_path):
     ep = _episode(tmp_path)
     with pytest.raises(SystemExit, match="Only 4 approved facts"):
         sc.write(ep)
+
+
+def test_parse_survives_deleted_start_marker():
+    s = sc.Script.from_json(good_json())
+    md = sc.render_script_md("T", s, sc.lint(s, IDS, [SOURCE]))
+    edited = md.replace(sc.SCRIPT_START, "").replace(sc.SCRIPT_END, "")
+    assert sc.parse_script_md(edited).to_json() == s.to_json()
+    with pytest.raises(ValueError, match="Hook"):
+        sc.parse_script_md("# Script\n\nno sections here")
