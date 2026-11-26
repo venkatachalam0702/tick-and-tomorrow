@@ -10,9 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
       - run: python -m pytest -q
+      - name: Check edited scripts (Gate 3)
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch -q origin "${{ github.base_ref }}"
+          files=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- 'episodes/*/script.md' || true)
+          if [ -n "$files" ]; then python -m pipeline.script lint $files; else echo "No script changes."; fi

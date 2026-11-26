@@ -51,3 +51,30 @@ research:
     - x.com
     - twitter.com
     - reddit.com
+
+script:
+  words_min: 1200          # about 8 minutes at 150 words a minute
+  words_max: 1500          # about 10 minutes
+  words_per_minute: 150
+  hook_max_words: 45       # the hook must fit in the first ~15 seconds
+  chapters_min: 3
+  chapters_max: 5
+  copied_run_words: 10     # a run of this many words copied from a source is flagged
+  repair_rounds: 1         # extra Flash call to fix lint errors (budget: ~20 Flash calls/day)
+  visual_types: [diagram, photo, illustration, text, same]
+  banned_phrases:
+    - "in today's video"
+    - "without further ado"
+    - "smash that like button"
+    - "let's dive in"
+    - "let's dive into"
+    - "buckle up"
+    - "in this day and age"
+    - "game-changer"
+    - "game changer"
+    - "mind-blowing"
+    - "it's important to note"
+    - "it is important to note"
+    - "delve"
+    - "tapestry"
+    - "in conclusion"
