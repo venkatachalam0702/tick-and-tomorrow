@@ -3,7 +3,15 @@
 Gemini writes the layout; code draws it, so labels are always crisp and spelled right.
 Coordinates: x from 0 (left) to 16 (right), y from 0 (bottom) to 9 (top).
 
-Element types:
+Compact form (what the planner writes): every element is {type, at: [numbers], label, color, fill}.
+  box     at = [x, y, w, h]       circle at = [x, y, r]
+  arrow   at = [x1, y1, x2, y2]   wave   at = [x1, y1, x2, y2]
+  line    at = [x1, y1, x2, y2, x3, y3, ...]
+  text    at = [x, y]  (label = the text)
+  label   at = [x, y, target_x, target_y]  (a callout with a leader line)
+Missing sizes get sensible defaults, so a half-filled element still draws.
+
+Long form (also accepted):
   box     x, y, w, h, label, color, fill(bool)        (x, y = bottom-left corner)
   circle  x, y, r, label, color, fill(bool)            (x, y = centre)
   arrow   from [x, y], to [x, y], label, color, curve(float, optional)
@@ -47,6 +55,44 @@ def _num(el, key, default=None):
         raise DiagramError(f"{el.get('type')}.{key} must be a number, got {v!r}") from e
 
 
+DEFAULTS = {"w": 3.0, "h": 1.4, "r": 1.0}
+
+
+def normalize(el: dict) -> dict:
+    """Turn the compact {type, at: [...]} form into the long form; long-form keys win if both are given."""
+    el = dict(el or {})
+    t = str(el.get("type") or "").lower().strip()
+    el["type"] = t
+    at = el.pop("at", None)
+    if isinstance(at, (list, tuple)):
+        try:
+            nums = [float(v) for v in at]
+        except (TypeError, ValueError) as e:
+            raise DiagramError(f"{t}.at must be numbers, got {at!r}") from e
+        if t == "box":
+            keys = ("x", "y", "w", "h")
+        elif t == "circle":
+            keys = ("x", "y", "r")
+        elif t in ("text", "label"):
+            keys = ("x", "y")
+        else:
+            keys = ()
+        for k, v in zip(keys, nums):
+            el.setdefault(k, v)
+        if t in ("arrow", "wave") and len(nums) >= 4:
+            el.setdefault("from", nums[0:2])
+            el.setdefault("to", nums[2:4])
+        if t == "line" and len(nums) >= 4:
+            el.setdefault("points", [nums[i:i + 2] for i in range(0, len(nums) - 1, 2)])
+        if t == "label" and len(nums) >= 4:
+            el.setdefault("target", nums[2:4])
+    if t in ("text", "label") and not el.get("text") and el.get("label"):
+        el["text"] = el["label"]
+    if t == "label" and not el.get("target") and "x" in el and "y" in el:
+        el["target"] = [el["x"], el["y"]]  # no leader line target: point at itself
+    return el
+
+
 def _wrap(text: str, width: int) -> str:
     return "\n".join(textwrap.wrap(str(text), width=max(6, width))) if text else ""
 
@@ -81,13 +127,19 @@ def render(spec: dict, out: Path) -> Path:
                 va="center", ha="left", zorder=10)
         ax.plot([0.6, 2.6], [7.85, 7.85], color=COLORS["warm"], lw=5, solid_capstyle="round", zorder=10)
 
-    for i, el in enumerate(elements):
-        t = (el.get("type") or "").lower()
+    for i, raw in enumerate(elements):
+        try:
+            el = normalize(raw)
+        except DiagramError as e:
+            plt.close(fig)
+            raise DiagramError(f"element {i + 1}: {e}") from e
+        t = el["type"]
         c = color(el.get("color"), "cool" if t in ("arrow", "wave") else "ink")
         lw = float(el.get("width", 4))
         try:
             if t == "box":
-                x, y, w, h = (_num(el, k) for k in ("x", "y", "w", "h"))
+                x, y = _num(el, "x"), _num(el, "y")
+                w, h = _num(el, "w", DEFAULTS["w"]), _num(el, "h", DEFAULTS["h"])
                 fill = el.get("fill", False)
                 ax.add_patch(patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.18",
                                                     lw=lw, edgecolor=c, facecolor=c if fill else "none",
@@ -96,7 +148,7 @@ def render(spec: dict, out: Path) -> Path:
                     ax.text(x + w / 2, y + h / 2, _wrap(el["label"], int(w * 3.2)), ha="center", va="center",
                             color=COLORS["bg2"] if fill else c, fontsize=SIZES["m"], fontweight="bold", zorder=4)
             elif t == "circle":
-                x, y, r = _num(el, "x"), _num(el, "y"), _num(el, "r")
+                x, y, r = _num(el, "x"), _num(el, "y"), _num(el, "r", DEFAULTS["r"])
                 fill = el.get("fill", False)
                 ax.add_patch(patches.Circle((x, y), r, lw=lw, edgecolor=c, facecolor=c if fill else "none",
                                             alpha=0.9 if fill else 1, zorder=3))
@@ -154,6 +206,8 @@ def render(spec: dict, out: Path) -> Path:
     return out
 
 
+# Compact, all-required shape: small models fill this reliably (the long form with
+# a dozen optional keys let them drop sizes and positions).
 DIAGRAM_SCHEMA = {
     "type": "OBJECT",
     "properties": {
@@ -164,21 +218,16 @@ DIAGRAM_SCHEMA = {
                 "type": "OBJECT",
                 "properties": {
                     "type": {"type": "STRING", "enum": ["box", "circle", "arrow", "line", "wave", "text", "label"]},
-                    "x": {"type": "NUMBER"}, "y": {"type": "NUMBER"}, "w": {"type": "NUMBER"},
-                    "h": {"type": "NUMBER"}, "r": {"type": "NUMBER"},
-                    "from": {"type": "ARRAY", "items": {"type": "NUMBER"}},
-                    "to": {"type": "ARRAY", "items": {"type": "NUMBER"}},
-                    "target": {"type": "ARRAY", "items": {"type": "NUMBER"}},
-                    "points": {"type": "ARRAY", "items": {"type": "ARRAY", "items": {"type": "NUMBER"}}},
-                    "label": {"type": "STRING"}, "text": {"type": "STRING"},
-                    "color": {"type": "STRING"}, "size": {"type": "STRING"},
-                    "fill": {"type": "BOOLEAN"}, "dashed": {"type": "BOOLEAN"},
-                    "amplitude": {"type": "NUMBER"}, "cycles": {"type": "NUMBER"}, "curve": {"type": "NUMBER"},
-                    "align": {"type": "STRING"},
+                    "at": {"type": "ARRAY", "items": {"type": "NUMBER"}},
+                    "label": {"type": "STRING"},
+                    "color": {"type": "STRING", "enum": ["ink", "sub", "warm", "cool", "red", "blue"]},
+                    "fill": {"type": "BOOLEAN"},
                 },
-                "required": ["type"],
+                "required": ["type", "at", "label", "color"],
+                "propertyOrdering": ["type", "at", "label", "color", "fill"],
             },
         },
     },
-    "required": ["elements"],
+    "required": ["title", "elements"],
+    "propertyOrdering": ["title", "elements"],
 }

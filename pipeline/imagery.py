@@ -129,14 +129,34 @@ def openverse_candidates(query: str, limit: int = 8) -> list[dict]:
     return out
 
 
+_STOP = set("a an the of on in at to for with and or from into over under its their this that these those "
+            "showing shows show photo photograph picture image close up closeup high magnification view "
+            "historical early modern inside outside detailed clear simple typical".split())
+
+
+def keywords(text: str, n: int = 4) -> str:
+    words = [w for w in re.findall(r"[A-Za-z0-9\-]+", text.lower()) if w not in _STOP and len(w) > 2]
+    return " ".join(list(dict.fromkeys(words))[:n])
+
+
 def photo_candidates(query: str) -> list[dict]:
-    found = []
-    for fn in (commons_candidates, openverse_candidates):
-        try:
-            found += fn(query)
-        except Exception as e:  # noqa: BLE001 - a provider being down should not stop the run
-            print(f"[warn] {fn.__name__} failed for {query!r}: {e}")
-    return found
+    """Try the query, then shorter keyword versions, on Commons and Openverse."""
+    tries = list(dict.fromkeys(q for q in (query.strip(), keywords(query, 4), keywords(query, 2)) if q))
+    found: list[dict] = []
+    for q in tries:
+        for fn in (commons_candidates, openverse_candidates):
+            try:
+                found += fn(q)
+            except Exception as e:  # noqa: BLE001 - a provider being down should not stop the run
+                print(f"[warn] {fn.__name__} failed for {q!r}: {e}")
+        if len(found) >= 3:
+            break
+    seen, unique = set(), []
+    for c in found:
+        if c["url"] not in seen:
+            seen.add(c["url"])
+            unique.append(c)
+    return unique
 
 
 def download_photo(c: dict, out: Path) -> Path:
@@ -148,12 +168,17 @@ def download_photo(c: dict, out: Path) -> Path:
 
 # ------------------------------------------------------------------ illustrations
 
+VARIATIONS = ["", " Wide shot.", " Close-up view.", " Soft morning light.", " Simple minimal composition."]
+
+
 def flux_illustration(prompt: str, out: Path, seed: int = 0) -> Path:
+    """seed picks a wording variation (Cloudflare's FLUX endpoint has no seed field)."""
     account, token = os.environ.get("CF_ACCOUNT_ID", "").strip(), os.environ.get("CF_API_TOKEN", "").strip()
     if not account or not token:
         raise RuntimeError("CF_ACCOUNT_ID / CF_API_TOKEN are not set (repo Settings > Secrets > Actions).")
     r = http().post(FLUX.format(account=account), headers={"Authorization": f"Bearer {token}"},
-                    json={"prompt": (STYLE + prompt)[:2048], "steps": 6, "seed": seed}, timeout=120)
+                    json={"prompt": (STYLE + prompt + VARIATIONS[seed % len(VARIATIONS)])[:2048], "steps": 6},
+                    timeout=120)
     if r.status_code != 200:
         raise RuntimeError(f"Cloudflare FLUX HTTP {r.status_code}: {r.text[:300]}")
     data = r.json()
