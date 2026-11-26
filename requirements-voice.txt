@@ -1,0 +1,6 @@
+# Voice stage only (heavy): installed by the "4. Voice" workflow, not by CI.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+kokoro>=0.7.16
+soundfile
+numpy
