@@ -102,4 +102,5 @@ voice:
 visuals:
   max_attempts: 3           # per asset: first try + 2 retries after a failed vision check
   min_qa_score: 3           # vision check score 1-5 needed to pass
+  plan_batch: 6             # cues planned per Gemini call (smaller = faster, fewer timeouts)
   photo_fallback: illustration   # if no licensed photo passes, draw an illustration instead

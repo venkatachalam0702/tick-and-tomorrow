@@ -52,6 +52,59 @@ def test_bad_diagram_specs_raise(tmp_path, bad, msg):
         diagram.render(bad, tmp_path / "d.png")
 
 
+COMPACT = {"title": "Oven parts", "elements": [
+    {"type": "box", "at": [1, 2, 4, 2.5], "label": "Magnetron", "color": "warm", "fill": True},
+    {"type": "wave", "at": [5.3, 3.25, 9.5, 3.25], "label": "", "color": "cool"},
+    {"type": "circle", "at": [12, 3], "label": "Food", "color": "red"},          # radius missing: default
+    {"type": "box", "at": [9.8, 6], "label": "Door", "color": "ink"},            # size missing: default
+    {"type": "arrow", "at": [2, 1, 5, 1], "label": "power", "color": "ink"},
+    {"type": "line", "at": [1, 0.6, 3, 0.6, 3, 1.5], "label": "", "color": "sub"},
+    {"type": "text", "at": [8, 7], "label": "2.45 GHz", "color": "ink"},
+    {"type": "label", "at": [7.4, 6.2, 7.4, 3.6], "label": "Microwaves", "color": "cool"}]}
+
+
+def test_compact_layout_renders(tmp_path):
+    assert Image.open(diagram.render(COMPACT, tmp_path / "c.png")).size == (1920, 1080)
+
+
+def test_normalize_compact_to_long_form():
+    assert diagram.normalize({"type": "Arrow", "at": [1, 2, 3, 4]}) | {} == {"type": "arrow", "from": [1, 2], "to": [3, 4]}
+    el = diagram.normalize({"type": "label", "at": [1, 2, 3, 4], "label": "hi"})
+    assert el["x"] == 1 and el["target"] == [3, 4] and el["text"] == "hi"
+    assert diagram.normalize({"type": "line", "at": [0, 0, 1, 1, 2, 0]})["points"] == [[0, 0], [1, 1], [2, 0]]
+    with pytest.raises(diagram.DiagramError, match="must be numbers"):
+        diagram.normalize({"type": "box", "at": ["a"]})
+
+
+def test_keywords_drop_filler_words():
+    assert imagery.keywords("A close-up photo of the cavity magnetron inside a microwave oven", 3) == \
+        "close-up cavity magnetron"
+
+
+def test_flux_request_has_no_seed(tmp_path, monkeypatch):
+    sent = {}
+
+    class R:
+        status_code = 200
+
+        def json(self):
+            import base64, io
+            buf = io.BytesIO()
+            Image.new("RGB", (64, 64)).save(buf, "PNG")
+            return {"result": {"image": base64.b64encode(buf.getvalue()).decode()}}
+
+    class S:
+        def post(self, url, headers=None, json=None, timeout=None):
+            sent.update(json)
+            return R()
+
+    monkeypatch.setenv("CF_ACCOUNT_ID", "a")
+    monkeypatch.setenv("CF_API_TOKEN", "t")
+    monkeypatch.setattr(imagery, "http", lambda: S())
+    imagery.flux_illustration("a tube", tmp_path / "f.png", seed=1)
+    assert set(sent) == {"prompt", "steps"} and "a tube" in sent["prompt"]
+
+
 @pytest.mark.parametrize("lic, ok", [("CC BY-SA 4.0", True), ("CC0", True), ("Public domain", True),
                                      ("CC BY-NC 2.0", False), ("CC BY-ND 3.0", False), ("Fair use", False), ("", False)])
 def test_license_allow_list(lic, ok):
@@ -125,8 +178,9 @@ def test_run_end_to_end(tmp_path, monkeypatch):
     (ep / "script.md").write_text(_md())
     (ep / "topic.yaml").write_text(yaml.safe_dump({"title": "T"}))
 
-    def fake_generate(prompt, *, role, json_schema=None, temperature=None, purpose="", images=None):
-        if purpose == "visual plan":
+    def fake_generate(prompt, *, role, json_schema=None, temperature=None, purpose="", images=None, max_tokens=None):
+        if purpose.startswith("visual plan"):
+            assert "V01 [illustration]" in prompt and "{cues}" not in prompt and max_tokens
             return {"assets": [{"id": "V01", "prompt": "lasagna"}, {"id": "V02", "diagram": SPEC},
                                {"id": "V03", "search": "magnetron"}, {"id": "V04", "headline": "Your trick?"}]}
         assert images and images[0][1] == "image/jpeg"

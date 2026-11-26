@@ -38,7 +38,7 @@ def models_for(role: str) -> list[str]:
 
 def generate(prompt: str, *, role: str = "helper", json_schema: dict | bool | None = None,
              temperature: float | None = None, purpose: str = "",
-             images: list[tuple[bytes, str]] | None = None) -> str | dict:
+             images: list[tuple[bytes, str]] | None = None, max_tokens: int | None = None) -> str | dict:
     """Send one prompt. Returns parsed JSON when json_schema is given, else text.
 
     Overload (503) and rate limits (429) are retried with growing waits; if the main model
@@ -46,6 +46,8 @@ def generate(prompt: str, *, role: str = "helper", json_schema: dict | bool | No
     """
     cfg = config.load()["gemini"]
     gen_cfg: dict = {"temperature": cfg["temperature"] if temperature is None else temperature}
+    if max_tokens:  # stops a model that loops from writing 60,000+ characters
+        gen_cfg["maxOutputTokens"] = max_tokens
     if json_schema is not None:  # a schema dict, or True for "any JSON"
         gen_cfg["responseMimeType"] = "application/json"
         if isinstance(json_schema, dict) and json_schema:
