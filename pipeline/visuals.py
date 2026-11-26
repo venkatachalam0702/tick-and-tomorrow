@@ -254,12 +254,35 @@ def contact_sheet(cues: list[Cue], out_dir: Path) -> Path:
     return path
 
 
-def run(ep: Path, out: Path) -> list[Cue]:
+def reuse_plans(cues: list[Cue], path: Path) -> bool:
+    """Reuse the layouts/searches/prompts from the last run (no Flash calls) when the cues are unchanged.
+
+    The renderer improves over time, so re-drawing a saved layout often fixes what was flagged.
+    Returns False (plan afresh) if there is no earlier run or the script's visuals changed.
+    """
+    if not path.exists():
+        return False
+    try:
+        old = {c["id"]: c for c in json.loads(path.read_text(encoding="utf-8"))}
+    except (ValueError, KeyError, TypeError):
+        return False
+    if [(c.id, c.kind, c.description) for c in cues] != [
+            (o.get("id"), o.get("kind"), o.get("description")) for o in old.values()]:
+        print("Script visuals changed since the last run: planning afresh.")
+        return False
+    for c in cues:
+        c.plan = old[c.id].get("plan") or {}
+    print(f"Reusing the {len(cues)} plans from the last run (no Flash calls). Use --replan to start over.")
+    return True
+
+
+def run(ep: Path, out: Path, replan: bool = False) -> list[Cue]:
     cfg = config.load()["visuals"]
     topic = yaml.safe_load((ep / "topic.yaml").read_text(encoding="utf-8"))
     cues = cues_from_script((ep / "script.md").read_text(encoding="utf-8"))
     print(f"{len(cues)} visuals to make: " + ", ".join(f"{k} {sum(c.kind == k for c in cues)}" for k in KINDS))
-    plan(cues, topic["title"])
+    if replan or not reuse_plans(cues, ep / "visuals.json"):
+        plan(cues, topic["title"])
     vis_dir = out / "visuals"
     vis_dir.mkdir(parents=True, exist_ok=True)
     for c in cues:
@@ -283,9 +306,10 @@ def main(argv=None) -> None:
     ap.add_argument("cmd", choices=["make"])
     ap.add_argument("episode", type=Path)
     ap.add_argument("--out", type=Path)
+    ap.add_argument("--replan", action="store_true", help="ignore the saved plans and ask Gemini again")
     a = ap.parse_args(argv)
     ep = a.episode if a.episode.is_absolute() else ROOT / a.episode
-    run(ep, a.out or ROOT / "out" / ep.name)
+    run(ep, a.out or ROOT / "out" / ep.name, replan=a.replan)
 
 
 if __name__ == "__main__":
