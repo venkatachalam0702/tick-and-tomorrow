@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+*.mp4
+*.wav
+*.mp3
+/out/
+/tmp/
+.pytest_cache/
+client_secret*.json
+token*.json
