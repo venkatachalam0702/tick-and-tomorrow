@@ -14,10 +14,12 @@ Nothing moves past a gate without Venkat, and nothing is ever published automati
 
 Coming next: voice, visuals, assembly, private upload (Gate 4), Shorts, news scanner.
 
+Format: one main video of 5 minutes max per week, plus 2 standalone Shorts (quick updates, written as their own short scripts, not cut from the main video).
+
 ## How the script stays original and accurate
 
 - Written only from the claims left in `facts.md` after your review; every factual sentence carries its `[Cxx]` tag.
-- Code checks it: hook ≤ 45 words, 3 to 5 chapters, 1,200 to 1,500 words (8 to 10 minutes), every tag exists,
+- Code checks it: hook ≤ 40 words, 2 to 4 chapters, 600 to 750 words (4 to 5 minutes, the channel's max), every tag exists,
   no sentence with a number untagged, no filler phrases, a visual cue on every line, and no run of 10+ words copied
   from a source. If a check fails, Gemini gets one repair attempt; anything still failing is listed in the PR.
 - The same checks run again in CI each time you save an edit to `script.md`.

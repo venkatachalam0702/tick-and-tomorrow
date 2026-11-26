@@ -15,7 +15,7 @@ def _line(text, claims=(), vt="same", visual="same"):
     return {"text": text, "claims": list(claims), "visual_type": vt, "visual": visual}
 
 
-def good_json(sentence_words=12, per_chapter=33):
+def good_json(sentence_words=12, per_chapter=18):
     filler = " ".join(["word"] * (sentence_words - 2))
     chap = lambda n: {"kind": "chapter", "title": f"Part {n}", "lines": [
         _line(f"Chapter {['one', 'two', 'three'][n - 1]} opens {filler}.", ["C01"], "diagram", "A labelled cutaway."),
@@ -32,7 +32,7 @@ def good_json(sentence_words=12, per_chapter=33):
 
 def test_good_script_passes():
     s = sc.Script.from_json(good_json())
-    assert 1200 <= s.word_count <= 1500, s.word_count
+    assert 600 <= s.word_count <= 750, s.word_count
     r = sc.lint(s, IDS, [SOURCE])
     assert r.ok, r.errors
 
@@ -43,10 +43,12 @@ def test_good_script_passes():
     (lambda d: d["sections"][2]["lines"][0]["claims"].append("C99"), "Unknown claim id C99"),
     (lambda d: d["sections"][2]["lines"][0].__setitem__("visual_type", "video"), "Unknown visual type"),
     (lambda d: d["sections"][0]["lines"][0].__setitem__("text", "Without further ado, microwaves are not tuned to water."), "Filler phrase"),
-    (lambda d: d["sections"][0]["lines"].append(_line(" ".join(["long"] * 50), ["C01"], "same", "same")), "Hook is"),
+    (lambda d: d["sections"][0]["lines"].append(_line(" ".join(["long"] * 40), ["C01"], "same", "same")), "Hook is"),
     (lambda d: d["sections"][2]["lines"].__setitem__(1, _line(
         "A cavity magnetron generates microwaves using the interaction of a stream of electrons with a magnet.", ["C04"])), "Copies 10+ words"),
     (lambda d: [d["sections"][i].__setitem__("lines", d["sections"][i]["lines"][:5]) for i in (2, 3, 4)], "words; need"),
+    (lambda d: [d["sections"][i]["lines"].extend(d["sections"][i]["lines"][1:10]) for i in (2, 3, 4)], "words; need"),
+    (lambda d: d["sections"].insert(5, copy.deepcopy(d["sections"][2])) or d["sections"].insert(5, copy.deepcopy(d["sections"][2])), "chapters; need"),
 ])
 def test_lint_catches(mutate, expect):
     d = copy.deepcopy(good_json())

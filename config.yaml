@@ -28,7 +28,7 @@ research:
   max_chars_per_source: 60000
   max_total_chars: 220000
   min_source_chars: 800
-  target_claims: "20 to 35"
+  target_claims: "15 to 25"     # enough for a 5-minute video
   # Reference links are only fetched from these kinds of domains (primary/official sources).
   trusted_domain_suffixes:
     - .gov
@@ -53,12 +53,13 @@ research:
     - reddit.com
 
 script:
-  words_min: 1200          # about 8 minutes at 150 words a minute
-  words_max: 1500          # about 10 minutes
+  # Main video is 5 minutes max (Venkat, 2026-11-26).
+  words_min: 600           # about 4 minutes at 150 words a minute
+  words_max: 750           # about 5 minutes
   words_per_minute: 150
-  hook_max_words: 45       # the hook must fit in the first ~15 seconds
-  chapters_min: 3
-  chapters_max: 5
+  hook_max_words: 40       # the hook must fit in the first ~15 seconds
+  chapters_min: 2
+  chapters_max: 4
   copied_run_words: 10     # a run of this many words copied from a source is flagged
   repair_rounds: 1         # extra Flash call to fix lint errors (budget: ~20 Flash calls/day)
   visual_types: [diagram, photo, illustration, text, same]
