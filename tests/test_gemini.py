@@ -55,3 +55,20 @@ def test_everything_down_raises(monkeypatch, no_wait):
     monkeypatch.setattr(gemini.requests, "post", lambda url, **kw: Resp(503, text="busy"))
     with pytest.raises(gemini.GeminiError, match="flash: .*lite: "):
         gemini.generate("hi", role="writer")
+
+
+def test_cut_off_json_is_retried(monkeypatch, no_wait):
+    monkeypatch.setattr(gemini.time, "sleep", lambda s: None)
+    cut = {"candidates": [{"finishReason": "MAX_TOKENS", "content": {"parts": [{"text": '{"assets": [{"id": "V0'}]}}]}
+    answers = iter([Resp(200, cut), Resp(200, OK)])
+    monkeypatch.setattr(gemini.requests, "post", lambda url, **kw: next(answers))
+    assert gemini.generate("hi", role="writer", json_schema={}) == {"a": 1}
+    assert len(gemini.CALL_LOG) == 2
+
+
+def test_always_cut_off_raises_gemini_error(monkeypatch, no_wait):
+    monkeypatch.setattr(gemini.time, "sleep", lambda s: None)
+    bad = {"candidates": [{"finishReason": "MAX_TOKENS", "content": {"parts": [{"text": '{"a": '}]}}]}
+    monkeypatch.setattr(gemini.requests, "post", lambda url, **kw: Resp(200, bad))
+    with pytest.raises(gemini.GeminiError, match="MAX_TOKENS"):
+        gemini.generate("hi", role="writer", json_schema={})

@@ -26,8 +26,10 @@ from .config import ROOT
 from .script import parse_script_md
 
 KINDS = ("diagram", "photo", "illustration", "text")
-PLAN_TOKENS = 12_000   # one batch of ~6 assets is ~2-4k tokens; this stops a looping reply
-REDRAW_TOKENS = 4_000
+# Caps stop a looping reply. They include the model's hidden "thinking" tokens, so leave room:
+# a batch of ~6 assets is ~2-4k tokens of JSON, a redraw ~1k.
+PLAN_TOKENS = 32_000
+REDRAW_TOKENS = 12_000
 
 
 @dataclass

@@ -83,7 +83,7 @@ script:
 voice:
   # Kokoro-82M (Apache 2.0). Comma-separated voices are averaged into one blended voice.
   # Run "4. Voice" with samples=true to hear the candidates, then set your pick here.
-  voice: af_heart
+  voice: am_fenrir         # picked by Venkat from the samples (2026-11-26)
   lang_code: a              # a = American English, b = British English
   speed: 1.0
   sample_rate: 24000
