@@ -1,0 +1,117 @@
+name: "2. Research (Gate 2 fact-check PR)"
+# Starts when Venkat comments /approve or /topic on a Gate 1 issue,
+# or by hand from the Actions tab (Run workflow) with a topic title.
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      title:
+        description: "Video question"
+        required: true
+        default: "How does a microwave work?"
+      wiki:
+        description: "Main Wikipedia article (optional)"
+        required: false
+        default: "Microwave oven"
+      urls:
+        description: "Extra source URLs, space separated (optional)"
+        required: false
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+concurrency:
+  group: research
+  cancel-in-progress: false
+jobs:
+  research:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.issue.pull_request == null &&
+       contains(github.event.issue.labels.*.name, 'gate-1-topic') &&
+       github.event.comment.author_association == 'OWNER' &&
+       (startsWith(github.event.comment.body, '/approve') || startsWith(github.event.comment.body, '/topic')))
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Acknowledge the comment
+        if: github.event_name == 'issue_comment'
+        run: |
+          gh api "repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions" -f content=eyes >/dev/null
+
+      - name: Read the chosen topic
+        id: topic
+        env:
+          IN_TITLE: ${{ inputs.title }}
+          IN_WIKI: ${{ inputs.wiki }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            { echo "title=$IN_TITLE"; echo "wiki=$IN_WIKI"; } >> "$GITHUB_OUTPUT"
+          else
+            python -m pipeline.gate resolve-topic
+          fi
+
+      - name: Explain a comment we could not read
+        if: failure() && steps.topic.outputs.error != ''
+        env:
+          MSG: ${{ steps.topic.outputs.error }}
+        run: |
+          gh issue comment "$ISSUE" --body "Could not start research: $MSG"
+
+      - name: Research and write the fact sheet
+        id: research
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TITLE: ${{ steps.topic.outputs.title }}
+          WIKI: ${{ steps.topic.outputs.wiki }}
+          URLS: ${{ inputs.urls }}
+        run: |
+          args=(--title "$TITLE" --wiki "$WIKI")
+          for u in $URLS; do args+=(--url "$u"); done
+          python -m pipeline.research "${args[@]}" | tee research.log
+          echo "dir=$(tail -n 1 research.log)" >> "$GITHUB_OUTPUT"
+
+      - name: Open the fact-check pull request
+        env:
+          TITLE: ${{ steps.topic.outputs.title }}
+          EP: ${{ steps.research.outputs.dir }}
+        run: |
+          slug=$(basename "$EP")
+          branch="episode/$slug"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then branch="$branch-${{ github.run_number }}"; fi
+          git config user.name "tick-and-tomorrow-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add "$EP"
+          git commit -m "Research: $TITLE"
+          git push -u origin "$branch"
+          gh label create episode --color 0B1F3A --description "Episode in progress" --force
+          gh label create gate-2-factcheck --color 1FA5A5 --description "Gate 2: fact-check" --force
+          body=$(printf '%s\n\n%s\n\n%s\n%s\n' \
+            "**Gate 2: fact-check** for _${TITLE}_" \
+            "Open **Files changed**, then \`$EP/facts.md\` (use the 📄 *Display the rich diff* button to read it nicely). Follow the review steps at the top of that file." \
+            "Merge this pull request to approve the facts." \
+            "${ISSUE:+Topic chosen in #$ISSUE.}")
+          pr=$(gh pr create --base main --head "$branch" --title "Gate 2: fact-check \"$TITLE\"" \
+                 --body "$body" --label gate-2-factcheck)
+          echo "Fact-check PR: $pr" >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$ISSUE" ]; then
+            gh issue comment "$ISSUE" --body "Research done. Fact-check here: $pr"
+            gh issue edit "$ISSUE" --remove-label gate-1-topic --add-label episode || true
+          fi
+
+      - name: Report a failure on the issue
+        if: failure() && steps.topic.outputs.title != '' && github.event_name == 'issue_comment'
+        run: |
+          gh issue comment "$ISSUE" --body "Research failed. Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

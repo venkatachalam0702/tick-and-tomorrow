@@ -1,0 +1,46 @@
+# Evergreen "How Things Work" ideas. Each Monday the pipeline ranks the unused ones by
+# Wikipedia pageviews (public interest) and lists the top few in a Gate 1 issue.
+# Add ideas any time: a title (as the video question) and the main Wikipedia article.
+# pinned: true puts an idea at the top regardless of pageviews.
+ideas:
+  - title: How does a microwave work?
+    wiki: Microwave oven
+    pinned: true
+  - title: How does GPS know where you are?
+    wiki: Global Positioning System
+  - title: How does a touchscreen know where you touched?
+    wiki: Touchscreen
+  - title: How does noise-cancelling actually cancel noise?
+    wiki: Active noise control
+  - title: How does a lithium-ion battery store energy?
+    wiki: Lithium-ion battery
+  - title: How does a refrigerator make cold?
+    wiki: Refrigerator
+  - title: How does an induction cooktop heat only the pan?
+    wiki: Induction cooking
+  - title: How does Wi-Fi send data through the air?
+    wiki: Wi-Fi
+  - title: How does a jet engine push a plane?
+    wiki: Jet engine
+  - title: How does a camera sensor turn light into a photo?
+    wiki: Image sensor
+  - title: How does an LED make light?
+    wiki: Light-emitting diode
+  - title: How does a QR code store information?
+    wiki: QR code
+  - title: How does a solar panel make electricity?
+    wiki: Solar panel
+  - title: How does an elevator stay safe if the cable snaps?
+    wiki: Elevator
+  - title: How does a smoke detector sense smoke?
+    wiki: Smoke detector
+  - title: How does a 3D printer build objects?
+    wiki: 3D printing
+  - title: How does an MRI scanner see inside you?
+    wiki: Magnetic resonance imaging
+  - title: How does a computer chip get made?
+    wiki: Semiconductor device fabrication
+  - title: How does a quartz watch keep time?
+    wiki: Quartz clock
+  - title: How does a heat pump move heat?
+    wiki: Heat pump
