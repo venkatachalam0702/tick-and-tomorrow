@@ -1,0 +1,35 @@
+name: "1. Suggest topics (Gate 1)"
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # Mondays 06:00 UTC
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: topic-suggest
+jobs:
+  suggest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Rank backlog ideas
+        run: python -m pipeline.topics suggest --out issue.md
+      - name: Open Gate 1 issue
+        run: |
+          gh label create gate-1-topic --color FFB000 --description "Gate 1: pick a topic" --force
+          # Close last week's unanswered topic issue so only one is open.
+          for n in $(gh issue list --label gate-1-topic --state open --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "Replaced by a newer topic list."
+          done
+          url=$(gh issue create --title "Gate 1: pick a topic ($(date -u +%Y-%m-%d))" \
+                 --body-file issue.md --label gate-1-topic)
+          echo "Opened $url" >> "$GITHUB_STEP_SUMMARY"

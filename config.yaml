@@ -1,0 +1,50 @@
+# Tick & Tomorrow pipeline settings.
+# Free tiers change often: model names and limits live here so a swap is a one-line edit.
+
+gemini:
+  # "-latest" aliases follow Google's current Flash / Flash-Lite models.
+  # Pin an exact name (e.g. from AI Studio) if an alias ever moves to a paid-only model.
+  writer_model: gemini-flash-latest        # facts, script, metadata (free tier ~20 requests/day)
+  helper_model: gemini-flash-lite-latest   # small helper jobs (free tier ~500 requests/day)
+  max_retries: 3
+  retry_wait_seconds: 20
+  temperature: 0.3
+
+channel:
+  name: Tick & Tomorrow
+  language: en
+
+topics:
+  backlog_file: topics/backlog.yaml
+  suggestions_per_issue: 5
+  pageview_days: 30
+
+research:
+  max_wikipedia_articles: 4
+  max_reference_sources: 3        # primary sources taken from Wikipedia's reference links
+  max_chars_per_source: 60000
+  max_total_chars: 220000
+  min_source_chars: 800
+  target_claims: "20 to 35"
+  # Reference links are only fetched from these kinds of domains (primary/official sources).
+  trusted_domain_suffixes:
+    - .gov
+    - .gov.uk
+    - .edu
+    - .ac.uk
+    - .int
+    - nasa.gov
+    - esa.int
+    - nist.gov
+    - who.int
+    - ieee.org
+    - nature.com
+    - science.org
+    - britannica.com
+    - arxiv.org
+  blocked_domains:
+    - youtube.com
+    - facebook.com
+    - x.com
+    - twitter.com
+    - reddit.com
