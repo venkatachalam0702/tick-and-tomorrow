@@ -54,9 +54,12 @@ research:
 
 script:
   # Main video is 5 minutes max (Venkat, 2026-11-26).
-  words_min: 600           # about 4 minutes at 150 words a minute
-  words_max: 750           # about 5 minutes
-  words_per_minute: 150
+  # Measured: the Fenrir voice reads ~140 words a minute (756 words = 5:27 on episode 1).
+  # 660 words + the 6 s end card keeps the video under 5:00.
+  words_min: 520           # about 3:45
+  words_max: 660           # about 4:45
+  words_per_minute: 140
+  max_video_seconds: 300   # the assembly stage warns above this
   hook_max_words: 40       # the hook must fit in the first ~15 seconds
   chapters_min: 2
   chapters_max: 4
@@ -104,3 +107,18 @@ visuals:
   min_qa_score: 3           # vision check score 1-5 needed to pass
   plan_batch: 6             # cues planned per Gemini call (smaller = faster, fewer timeouts)
   photo_fallback: illustration   # if no licensed photo passes, draw an illustration instead
+
+assemble:
+  crossfade: 0.4            # seconds of cross-fade between visuals
+  ken_burns_zoom: 0.06      # slow zoom on photos/illustrations (0 = still); diagrams always stay still
+  tail_seconds: 0.6         # silence after the last word before the end card
+  end_card_seconds: 6       # logo + subscribe card (YouTube end screens need 5 s or more)
+  end_title: "Thanks for watching"
+  end_sub: "Subscribe for more on how things work."
+  watermark_px: 110
+  watermark_opacity: 0.6
+  music: ""                 # a file name in assets/music/ (YouTube Audio Library), or "" for no music
+  music_volume: 0.12        # before ducking under the voice
+  burn_captions: false      # captions.srt is uploaded to YouTube as subtitles instead
+  crf: 20                   # video quality (lower = better and bigger)
+  preset: medium

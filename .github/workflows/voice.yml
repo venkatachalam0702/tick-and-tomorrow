@@ -18,6 +18,9 @@ on:
       voice:
         description: "Voice override, e.g. af_bella or af_heart,af_bella (optional)"
         required: false
+      speed:
+        description: "Speaking speed for this run, e.g. 1.1 (optional; default from config.yaml)"
+        required: false
 permissions:
   contents: write
   pull-requests: write
@@ -81,8 +84,9 @@ jobs:
         env:
           EP: ${{ steps.ep.outputs.dir }}
           VOICE: ${{ inputs.voice }}
+          SPEED: ${{ inputs.speed }}
         run: |
-          python -u -m pipeline.voice "$MODE" "$EP" ${VOICE:+--voice "$VOICE"} --out out
+          python -u -m pipeline.voice "$MODE" "$EP" ${VOICE:+--voice "$VOICE"} ${SPEED:+--speed "$SPEED"} --out out
           ls -la out
 
       - name: Upload the audio
