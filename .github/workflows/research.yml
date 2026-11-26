@@ -38,8 +38,8 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       ISSUE: ${{ github.event.issue.number }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -77,12 +77,13 @@ jobs:
           WIKI: ${{ steps.topic.outputs.wiki }}
           URLS: ${{ inputs.urls }}
         run: |
+          set -o pipefail
           args=(--title "$TITLE" --wiki "$WIKI")
           for u in $URLS; do args+=(--url "$u"); done
-          python -m pipeline.research "${args[@]}" | tee research.log
-          echo "dir=$(tail -n 1 research.log)" >> "$GITHUB_OUTPUT"
+          python -u -m pipeline.research "${args[@]}"
 
       - name: Open the fact-check pull request
+        if: steps.research.outputs.dir != ''
         env:
           TITLE: ${{ steps.topic.outputs.title }}
           EP: ${{ steps.research.outputs.dir }}
