@@ -12,17 +12,17 @@ Nothing moves past a gate without Venkat, and nothing is ever published automati
 | 2 | Research | Your `/approve` comment, or **Actions → 2. Research → Run workflow** | Pull request labelled `gate-2-factcheck` with `facts.md` | Delete or fix doubtful claims, then merge |
 | 3 | Script | Merging a fact-check PR, or **Actions → 3. Script → Run workflow** with the episode folder | Pull request labelled `gate-3-script` with `script.md` | Edit wording and the hook in place, then merge |
 | 4 | Voice | Merging a script PR, or **Actions → 4. Voice → Run workflow** | `narration.mp3` / `.wav` as a run artifact (7 days); `timings.json` and `captions.srt` committed | Listen (optional). Pick the channel voice once with mode `samples` |
+| 5 | Visuals | Merging a script PR, or **Actions → 5. Visuals → Run workflow** | One 1920x1080 image per visual cue + `contact_sheet.jpg` (artifact, 5 days); `visuals.json`, `credits.json` committed | Glance at the contact sheet; assets marked CHECK failed the vision check. Re-running redraws the saved plans (no Flash calls); tick `replan` to start over |
+| 6 | Assemble | **Actions → 6. Assemble → Run workflow** after 4 and 5 have finished | `video.mp4` (1080p, artifact, 7 days) | Watch it |
 
-| 5 | Visuals | Merging a script PR, or **Actions → 5. Visuals → Run workflow** | One 1920x1080 image per visual cue + `contact_sheet.jpg` (artifact, 5 days); `visuals.json`, `credits.json` committed | Glance at the contact sheet; assets marked CHECK failed the vision check |
-
-Coming next: assembly, private upload (Gate 4), Shorts, news scanner.
+Coming next: private upload (Gate 4), Shorts, news scanner.
 
 Format: one main video of 5 minutes max per week, plus 2 standalone Shorts (quick updates, written as their own short scripts, not cut from the main video).
 
 ## How the script stays original and accurate
 
 - Written only from the claims left in `facts.md` after your review; every factual sentence carries its `[Cxx]` tag.
-- Code checks it: hook ≤ 40 words, 2 to 4 chapters, 600 to 750 words (4 to 5 minutes, the channel's max), every tag exists,
+- Code checks it: hook ≤ 40 words, 2 to 4 chapters, 520 to 660 words (under 5 minutes with the end card, the channel's max), every tag exists,
   no sentence with a number untagged, no filler phrases, a visual cue on every line, and no run of 10+ words copied
   from a source. If a check fails, Gemini gets one repair attempt; anything still failing is listed in the PR.
 - The same checks run again in CI each time you save an edit to `script.md`.
@@ -55,6 +55,18 @@ If a word is mispronounced, add its IPA to `voice/lexicon.yaml`.
 - **Text cards**: drawn by code.
 - Every image is checked by Gemini vision (match with the cue, correctness, garbled text, watermarks, logos) and
   remade up to 2 more times. Anything still failing is marked CHECK on the contact sheet for your final review.
+
+## Assembly
+
+Each visual stays on screen from the first word of its sentences until the next visual starts, with short
+cross-fades. Photos and illustrations get a slow zoom; diagrams and text cards stay still so labels stay sharp.
+The watermark sits bottom-right, and a 6-second end card (logo + subscribe) leaves room for YouTube end screens.
+Captions are not burned in: `captions.srt` is uploaded to YouTube as subtitles (set `assemble.burn_captions: true`
+to burn them in instead).
+
+**Background music (optional):** in YouTube Studio, open **Audio Library**, filter **Attribution not required**,
+download a calm track, put the file in `assets/music/` (upload it on GitHub with **Add file → Upload files**),
+and set `assemble.music` in `config.yaml` to its file name. It is ducked under the voice automatically.
 
 ## Files
 

@@ -1,0 +1,107 @@
+name: "6. Assemble (voice + visuals into the video)"
+# Run by hand after "4. Voice" (narrate) and "5. Visuals" have both finished for the episode.
+# Uses their downloads (artifacts), so run it within 5 days of the visuals run.
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: "Episode folder (leave empty for the newest episode)"
+        required: false
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: assemble
+  cancel-in-progress: false
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install system tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core >/dev/null
+      - run: pip install -r requirements.txt
+
+      - name: Find the episode folder
+        id: ep
+        env:
+          IN_EPISODE: ${{ inputs.episode }}
+        run: |
+          if [ -n "$IN_EPISODE" ]; then
+            ep="${IN_EPISODE%/}"
+          else
+            ep=$(ls -d episodes/*/ 2>/dev/null | sed 's#/$##' | while read -r d; do [ -f "$d/visuals.json" ] && echo "$d"; done | sort | tail -n 1)
+          fi
+          for f in timings.json visuals.json; do
+            if [ ! -f "$ep/$f" ]; then
+              echo "::error::$ep/$f is missing. Run '4. Voice' (narrate) and '5. Visuals' first."; exit 1
+            fi
+          done
+          echo "Episode: $ep"
+          echo "dir=$ep" >> "$GITHUB_OUTPUT"
+          echo "slug=$(basename "$ep")" >> "$GITHUB_OUTPUT"
+
+      - name: Download the voice-over and the images from their runs
+        env:
+          SLUG: ${{ steps.ep.outputs.slug }}
+        run: |
+          fetch() {  # $1 = artifact name, $2 = folder
+            id=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=$1&per_page=1" --jq '.artifacts[0] | select(.expired == false) | .workflow_run.id')
+            if [ -z "$id" ]; then
+              echo "::error::No download named '$1' (it expires after a few days). Run that stage again, then this one."; exit 1
+            fi
+            echo "$1 <- run $id"
+            gh run download "$id" -n "$1" -D "$2"
+          }
+          fetch "voice-narrate-$SLUG" dl/voice
+          fetch "visuals-$SLUG" dl/visuals
+          find dl -maxdepth 3 | head -n 40
+
+      - name: Put the video together
+        env:
+          EP: ${{ steps.ep.outputs.dir }}
+        run: |
+          set -o pipefail
+          audio=$(find dl/voice -name narration.wav | head -n 1)
+          [ -n "$audio" ] || audio=$(find dl/voice -name narration.mp3 | head -n 1)
+          vis=$(dirname "$(find dl/visuals -name 'V01.png' | head -n 1)")
+          python -u -m pipeline.assemble "$EP" --audio "$audio" --visuals "$vis" --out out | tee assemble.log
+
+      - name: Upload the video
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ steps.ep.outputs.slug }}
+          path: |
+            out/video.mp4
+            out/timeline.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+      - name: Mark the episode as assembled
+        env:
+          EP: ${{ steps.ep.outputs.dir }}
+        run: |
+          python - "$EP/topic.yaml" <<'PY'
+          import sys, yaml
+          p = sys.argv[1]; t = yaml.safe_load(open(p))
+          t["status"] = "assembled"
+          open(p, "w").write(yaml.safe_dump(t, sort_keys=False, allow_unicode=True))
+          PY
+          git config user.name "tick-and-tomorrow-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$EP/topic.yaml"
+          git commit -m "Assembled $(basename "$EP")" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin main && git push origin HEAD:main && break; sleep 5; done
+          run="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          { echo "### Video"; echo '```'; grep -E '^Done:|\[warn\]' assemble.log; echo '```';
+            echo "Watch: download **video-${{ steps.ep.outputs.slug }}** at the bottom of $run"; } >> "$GITHUB_STEP_SUMMARY"

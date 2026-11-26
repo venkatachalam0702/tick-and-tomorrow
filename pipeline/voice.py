@@ -189,10 +189,10 @@ def load_lexicon() -> dict[str, str]:
     return (yaml.safe_load(f.read_text(encoding="utf-8")) or {}).get("words") or {} if f.exists() else {}
 
 
-def run_narrate(ep: Path, out: Path, voice: str | None = None, tts=None) -> dict:
+def run_narrate(ep: Path, out: Path, voice: str | None = None, tts=None, speed: float | None = None) -> dict:
     cfg = config.load()["voice"]
     voice = voice or cfg["voice"]
-    tts = tts or KokoroTTS(cfg["lang_code"], voice, cfg["speed"])
+    tts = tts or KokoroTTS(cfg["lang_code"], voice, speed or cfg["speed"])
     sentences = sentences_from_script((ep / "script.md").read_text(encoding="utf-8"))
     audio, sentences = narrate(sentences, tts, cfg, load_lexicon())
     total = len(audio) / cfg["sample_rate"]
@@ -201,6 +201,12 @@ def run_narrate(ep: Path, out: Path, voice: str | None = None, tts=None) -> dict
     (ep / "timings.json").write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     (ep / "captions.srt").write_text(build_srt(sentences, cfg["caption_max_chars"]), encoding="utf-8")
     print(f"Narration: {total / 60:.1f} min with voice {voice}")
+    full = config.load()
+    budget = float(full["script"].get("max_video_seconds", 300)) - float(full.get("assemble", {}).get("end_card_seconds", 6)) - 1
+    if total > budget:
+        fix = (speed or cfg["speed"]) * total / budget
+        print(f"[warn] narration is {total:.0f} s; the video limit leaves {budget:.0f} s. "
+              f"Shorten the script, or re-run with speed {min(fix + 0.01, 1.25):.2f}.")
     return data
 
 
@@ -226,12 +232,13 @@ def main(argv=None) -> None:
     ap.add_argument("cmd", choices=["narrate", "samples"])
     ap.add_argument("episode", type=Path)
     ap.add_argument("--voice", default="")
+    ap.add_argument("--speed", type=float, default=None, help="override voice.speed for this run, e.g. 1.1")
     ap.add_argument("--out", type=Path)
     a = ap.parse_args(argv)
     ep = a.episode if a.episode.is_absolute() else ROOT / a.episode
     out = a.out or ROOT / "out" / ep.name
     if a.cmd == "narrate":
-        run_narrate(ep, out, a.voice or None)
+        run_narrate(ep, out, a.voice or None, speed=a.speed)
     else:
         for p in run_samples(ep, out):
             print(p)

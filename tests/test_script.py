@@ -15,7 +15,7 @@ def _line(text, claims=(), vt="same", visual="same"):
     return {"text": text, "claims": list(claims), "visual_type": vt, "visual": visual}
 
 
-def good_json(sentence_words=12, per_chapter=18):
+def good_json(sentence_words=12, per_chapter=15):
     filler = " ".join(["word"] * (sentence_words - 2))
     chap = lambda n: {"kind": "chapter", "title": f"Part {n}", "lines": [
         _line(f"Chapter {['one', 'two', 'three'][n - 1]} opens {filler}.", ["C01"], "diagram", "A labelled cutaway."),
@@ -32,7 +32,7 @@ def good_json(sentence_words=12, per_chapter=18):
 
 def test_good_script_passes():
     s = sc.Script.from_json(good_json())
-    assert 600 <= s.word_count <= 750, s.word_count
+    assert 520 <= s.word_count <= 660, s.word_count
     r = sc.lint(s, IDS, [SOURCE])
     assert r.ok, r.errors
 
