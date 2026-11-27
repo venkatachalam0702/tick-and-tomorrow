@@ -1,543 +1,543 @@
 1
-00:00:00,225 --> 00:00:02,625
+00:00:00,200 --> 00:00:02,450
 You've probably heard that microwaves cook
 
 2
-00:00:02,625 --> 00:00:05,013
+00:00:02,450 --> 00:00:04,612
 food from the inside out. It sounds
 
 3
-00:00:05,013 --> 00:00:07,275
+00:00:04,612 --> 00:00:06,737
 logical, but this common kitchen myth is
 
 4
-00:00:07,275 --> 00:00:09,275
+00:00:06,737 --> 00:00:08,650
 actually completely backwards.
 
 5
-00:00:10,000 --> 00:00:12,725
+00:00:09,325 --> 00:00:11,900
 In reality, microwave energy struggles to
 
 6
-00:00:12,725 --> 00:00:14,725
+00:00:11,900 --> 00:00:13,838
 penetrate much further than a single
 
 7
-00:00:14,725 --> 00:00:17,400
+00:00:13,838 --> 00:00:16,375
 centimeter into your leftover lasagna.
 
 8
-00:00:18,625 --> 00:00:20,488
+00:00:17,550 --> 00:00:19,287
 In this video, we'll explore how a
 
 9
-00:00:20,488 --> 00:00:23,163
+00:00:19,287 --> 00:00:21,788
 specialized vacuum tube turns direct
 
 10
-00:00:23,163 --> 00:00:25,600
+00:00:21,788 --> 00:00:24,125
 current into invisible energy waves that
 
 11
-00:00:25,600 --> 00:00:27,550
+00:00:24,125 --> 00:00:25,950
 get food molecules moving.
 
 12
-00:00:28,250 --> 00:00:30,387
+00:00:26,575 --> 00:00:28,612
 We'll also find out why your plate stays
 
 13
-00:00:30,387 --> 00:00:33,025
+00:00:28,612 --> 00:00:30,950
 relatively cool while your soup boils, and
 
 14
-00:00:33,025 --> 00:00:35,525
+00:00:30,950 --> 00:00:33,225
 how the microwave door keeps you safe.
 
 15
-00:00:36,675 --> 00:00:39,788
+00:00:34,325 --> 00:00:37,100
 A microwave oven heats food by exposing it
 
 16
-00:00:39,788 --> 00:00:42,025
+00:00:37,100 --> 00:00:39,250
 to electromagnetic radiation within the
 
 17
-00:00:42,025 --> 00:00:44,025
+00:00:39,250 --> 00:00:41,100
 microwave frequency band.
 
 18
-00:00:44,725 --> 00:00:46,625
+00:00:41,750 --> 00:00:43,650
 The science behind this process is
 
 19
-00:00:46,625 --> 00:00:48,700
+00:00:43,650 --> 00:00:45,650
 something called dielectric heating.
 
 20
-00:00:49,450 --> 00:00:51,838
+00:00:46,350 --> 00:00:48,562
 Many substances in our food, especially
 
 21
-00:00:51,838 --> 00:00:54,000
+00:00:48,562 --> 00:00:50,650
 water and fats, are made up of polar
 
 22
-00:00:54,000 --> 00:00:56,300
+00:00:50,650 --> 00:00:52,850
 molecules, which have an electric dipole
 
 23
-00:00:56,300 --> 00:00:57,225
+00:00:52,850 --> 00:00:53,700
 structure.
 
 24
-00:00:57,950 --> 00:01:00,363
+00:00:54,350 --> 00:00:56,600
 Think of a dipole molecule as a tiny
 
 25
-00:01:00,363 --> 00:01:02,988
+00:00:56,600 --> 00:00:59,137
 microscopic magnet, with a slight positive
 
 26
-00:01:02,988 --> 00:01:05,237
+00:00:59,137 --> 00:01:01,237
 charge on one end and a slight negative
 
 27
-00:01:05,237 --> 00:01:06,575
+00:01:01,237 --> 00:01:02,500
 charge on the other.
 
 28
-00:01:07,275 --> 00:01:09,650
+00:01:03,175 --> 00:01:05,375
 When an alternating electric field moves
 
 29
-00:01:09,650 --> 00:01:11,625
+00:01:05,375 --> 00:01:07,300
 through the oven chamber, these polar
 
 30
-00:01:11,625 --> 00:01:14,275
+00:01:07,300 --> 00:01:09,800
 molecules constantly try to turn and align
 
 31
-00:01:14,275 --> 00:01:16,475
+00:01:09,800 --> 00:01:11,825
 themselves with the changing field.
 
 32
-00:01:17,225 --> 00:01:19,625
+00:01:12,525 --> 00:01:14,713
 Interestingly, this process doesn't depend
 
 33
-00:01:19,625 --> 00:01:21,487
+00:01:14,713 --> 00:01:16,450
 on hitting some special resonance
 
 34
-00:01:21,487 --> 00:01:24,300
+00:01:16,450 --> 00:01:19,075
 frequency of water. Dielectric heating can
 
 35
-00:01:24,300 --> 00:01:27,275
+00:01:19,075 --> 00:01:21,800
 happen across a wide range of frequencies.
 
 36
-00:01:27,950 --> 00:01:30,263
+00:01:22,425 --> 00:01:24,638
 As the electric field keeps flipping back
 
 37
-00:01:30,263 --> 00:01:32,950
+00:01:24,638 --> 00:01:27,100
 and forth, the molecules repeatedly change
 
 38
-00:01:32,950 --> 00:01:34,325
+00:01:27,100 --> 00:01:28,400
 their orientation.
 
 39
-00:01:35,025 --> 00:01:37,362
+00:01:29,050 --> 00:01:31,263
 As they twist and turn, they interact with
 
 40
-00:01:37,362 --> 00:01:39,513
+00:01:31,263 --> 00:01:33,263
 neighboring molecules through electrical
 
 41
-00:01:39,513 --> 00:01:42,188
+00:01:33,263 --> 00:01:35,662
 forces, transferring motion and energy
 
 42
-00:01:42,188 --> 00:01:43,475
+00:01:35,662 --> 00:01:36,825
 throughout the food.
 
 43
-00:01:44,200 --> 00:01:46,162
+00:01:37,500 --> 00:01:39,338
 And since temperature is essentially a
 
 44
-00:01:46,162 --> 00:01:48,550
+00:01:39,338 --> 00:01:41,538
 measure of the average kinetic energy of
 
 45
-00:01:48,550 --> 00:01:51,138
+00:01:41,538 --> 00:01:43,862
 atoms and molecules, all this movement
 
 46
-00:01:51,138 --> 00:01:53,025
+00:01:43,862 --> 00:01:45,625
 causes the food to heat up.
 
 47
-00:01:53,700 --> 00:01:55,588
+00:01:46,275 --> 00:01:48,075
 But to get billions of these tiny
 
 48
-00:01:55,588 --> 00:01:57,950
+00:01:48,075 --> 00:01:50,250
 particles moving, the microwave first
 
 49
-00:01:57,950 --> 00:02:00,013
+00:01:50,250 --> 00:01:52,213
 needs a way to generate those rapidly
 
 50
-00:02:00,013 --> 00:02:01,350
+00:01:52,213 --> 00:01:53,425
 changing waves.
 
 51
-00:02:02,500 --> 00:02:04,400
+00:01:54,550 --> 00:01:56,400
 That job falls to a clever little
 
 52
-00:02:04,400 --> 00:02:07,125
+00:01:56,400 --> 00:01:58,875
 component called the cavity magnetron, an
 
 53
-00:02:07,125 --> 00:02:09,250
+00:01:58,875 --> 00:02:00,875
 invention that originally came out of the
 
 54
-00:02:09,250 --> 00:02:10,600
+00:02:00,875 --> 00:02:02,100
 United Kingdom.
 
 55
-00:02:11,325 --> 00:02:13,713
+00:02:02,750 --> 00:02:04,913
 This British invention made it possible to
 
 56
-00:02:13,713 --> 00:02:15,913
+00:02:04,913 --> 00:02:07,038
 generate electromagnetic waves with
 
 57
-00:02:15,913 --> 00:02:18,025
+00:02:07,038 --> 00:02:09,000
 wavelengths short enough to heat water
 
 58
-00:02:18,025 --> 00:02:19,075
+00:02:09,000 --> 00:02:09,975
 effectively.
 
 59
-00:02:19,875 --> 00:02:22,413
+00:02:10,700 --> 00:02:13,012
 Inside the microwave, the magnetron works
 
 60
-00:02:22,413 --> 00:02:24,825
+00:02:13,012 --> 00:02:15,312
 as an electronic oscillator, converting
 
 61
-00:02:24,825 --> 00:02:27,100
+00:02:15,312 --> 00:02:17,500
 the direct-current electricity supplied to
 
 62
-00:02:27,100 --> 00:02:29,513
+00:02:17,500 --> 00:02:19,787
 its vacuum tube into a high-frequency
 
 63
-00:02:29,513 --> 00:02:31,175
+00:02:19,787 --> 00:02:21,250
 microwave signal.
 
 64
-00:02:31,875 --> 00:02:34,075
+00:02:21,900 --> 00:02:23,887
 It does this by directing a stream of
 
 65
-00:02:34,075 --> 00:02:36,763
+00:02:23,887 --> 00:02:26,338
 moving electrons past a ring of hollow
 
 66
-00:02:36,763 --> 00:02:39,450
+00:02:26,338 --> 00:02:28,800
 cavity resonators, all under the influence
 
 67
-00:02:39,450 --> 00:02:41,600
+00:02:28,800 --> 00:02:30,775
 of a strong magnetic field.
 
 68
-00:02:42,350 --> 00:02:44,375
+00:02:31,450 --> 00:02:33,325
 As these electrons interact with the
 
 69
-00:02:44,375 --> 00:02:47,012
+00:02:33,325 --> 00:02:35,838
 magnetic field and pass the cavities, they
 
 70
-00:02:47,012 --> 00:02:48,975
+00:02:35,838 --> 00:02:37,725
 generate powerful, oscillating
 
 71
-00:02:48,975 --> 00:02:50,850
+00:02:37,725 --> 00:02:39,475
 electromagnetic waves.
 
 72
-00:02:51,525 --> 00:02:53,975
+00:02:40,125 --> 00:02:42,325
 But generating these waves is only half
 
 73
-00:02:53,975 --> 00:02:56,338
+00:02:42,325 --> 00:02:44,537
 the job. The next challenge is guiding
 
 74
-00:02:56,338 --> 00:02:58,425
+00:02:44,537 --> 00:02:46,500
 them safely out of the vacuum tube and
 
 75
-00:02:58,425 --> 00:03:00,000
+00:02:46,500 --> 00:02:47,950
 into the cooking chamber.
 
 76
-00:03:01,150 --> 00:03:03,350
+00:02:49,075 --> 00:02:51,100
 To keep the microwave radiation from
 
 77
-00:03:03,350 --> 00:03:05,500
+00:02:51,100 --> 00:02:53,100
 escaping, the cooking compartment is
 
 78
-00:03:05,500 --> 00:03:08,075
+00:02:53,100 --> 00:02:55,500
 designed to work like a Faraday cage.
 
 79
-00:03:08,875 --> 00:03:10,887
+00:02:56,250 --> 00:02:58,150
 Even though the metal surfaces around the
 
 80
-00:03:10,887 --> 00:03:13,275
+00:02:58,150 --> 00:03:00,450
 door don't need to touch continuously,
 
 81
-00:03:13,387 --> 00:03:15,787
+00:03:00,537 --> 00:03:02,862
 specially designed choke connections along
 
 82
-00:03:15,787 --> 00:03:18,062
+00:03:02,862 --> 00:03:04,900
 the edges effectively create the same
 
 83
-00:03:18,062 --> 00:03:21,050
+00:03:04,900 --> 00:03:07,700
 shielding effect at microwave frequencies.
 
 84
-00:03:21,750 --> 00:03:24,137
+00:03:08,350 --> 00:03:10,412
 The viewing window has its own safety
 
 85
-00:03:24,137 --> 00:03:26,875
+00:03:10,412 --> 00:03:12,987
 feature too. Behind the clear outer panel
 
 86
-00:03:26,875 --> 00:03:29,050
+00:03:12,987 --> 00:03:15,000
 sits a conductive metal mesh that helps
 
 87
-00:03:29,050 --> 00:03:30,650
+00:03:15,000 --> 00:03:16,475
 contain the radiation.
 
 88
-00:03:31,375 --> 00:03:33,550
+00:03:17,150 --> 00:03:19,125
 The holes in this mesh are much smaller
 
 89
-00:03:33,550 --> 00:03:35,650
+00:03:19,125 --> 00:03:21,075
 than the wavelength of microwaves, so the
 
 90
-00:03:35,650 --> 00:03:38,200
+00:03:21,075 --> 00:03:23,475
 radiation stays inside, while visible
 
 91
-00:03:38,200 --> 00:03:40,262
+00:03:23,475 --> 00:03:25,462
 light can still pass through and let you
 
 92
-00:03:40,262 --> 00:03:41,525
+00:03:25,462 --> 00:03:26,575
 see your food.
 
 93
-00:03:42,275 --> 00:03:44,675
+00:03:27,250 --> 00:03:29,525
 Now, there's another important detail: the
 
 94
-00:03:44,675 --> 00:03:47,275
+00:03:29,525 --> 00:03:31,900
 container you put inside the microwave.
 
 95
-00:03:48,075 --> 00:03:50,325
+00:03:32,650 --> 00:03:34,700
 You need cookware that allows the waves to
 
 96
-00:03:50,325 --> 00:03:52,862
+00:03:34,700 --> 00:03:37,050
 pass through. Metal dishes reflect the
 
 97
-00:03:52,862 --> 00:03:55,137
+00:03:37,050 --> 00:03:39,150
 radiation away from the food, while
 
 98
-00:03:55,137 --> 00:03:57,412
+00:03:39,150 --> 00:03:41,250
 high-permittivity materials absorb the
 
 99
-00:03:57,412 --> 00:03:59,675
+00:03:41,250 --> 00:03:43,350
 energy themselves and can end up heating
 
 100
-00:03:59,675 --> 00:04:00,675
+00:03:43,350 --> 00:03:44,300
 instead.
 
 101
-00:04:01,400 --> 00:04:03,550
+00:03:44,975 --> 00:03:47,000
 When these waves hit suitable food,
 
 102
-00:04:03,662 --> 00:04:06,587
+00:03:47,100 --> 00:03:49,812
 radiation at two point four five gigahertz
 
 103
-00:04:06,587 --> 00:04:08,737
+00:03:49,812 --> 00:03:51,812
 typically penetrates only about one
 
 104
-00:04:08,737 --> 00:04:10,175
+00:03:51,812 --> 00:03:53,150
 centimeter into it.
 
 105
-00:04:10,950 --> 00:04:13,025
+00:03:53,850 --> 00:03:55,725
 In food with plenty of moisture and a
 
 106
-00:04:13,025 --> 00:04:15,787
+00:03:55,725 --> 00:03:58,362
 fairly uniform composition, reasonably
 
 107
-00:04:15,787 --> 00:04:18,212
+00:03:58,362 --> 00:04:00,662
 consistent heating happens only within the
 
 108
-00:04:18,212 --> 00:04:20,025
+00:04:00,662 --> 00:04:02,400
 outer twenty-five to thirty-eight
 
 109
-00:04:20,025 --> 00:04:21,150
+00:04:02,400 --> 00:04:03,425
 millimeters.
 
 110
-00:04:21,875 --> 00:04:24,162
+00:04:04,075 --> 00:04:06,187
 There's another problem. When microwaves
 
 111
-00:04:24,162 --> 00:04:26,438
+00:04:06,187 --> 00:04:08,300
 bounce around inside an empty cooking
 
 112
-00:04:26,438 --> 00:04:28,775
+00:04:08,300 --> 00:04:10,425
 chamber, they create uneven patterns of
 
 113
-00:04:28,775 --> 00:04:31,225
+00:04:10,425 --> 00:04:12,650
 energy, leaving some areas of your food
 
 114
-00:04:31,225 --> 00:04:33,587
+00:04:12,650 --> 00:04:14,962
 scorching hot while others remain barely
 
 115
-00:04:33,587 --> 00:04:34,475
+00:04:14,962 --> 00:04:15,775
 warm.
 
 116
-00:04:35,200 --> 00:04:37,337
+00:04:16,450 --> 00:04:18,413
 That's why modern microwaves use a
 
 117
-00:04:37,337 --> 00:04:40,262
+00:04:18,413 --> 00:04:20,938
 rotating turntable, a microwave stirrer
 
 118
-00:04:40,262 --> 00:04:42,725
+00:04:20,938 --> 00:04:23,275
 fan, or even multiple magnetrons to
 
 119
-00:04:42,725 --> 00:04:45,200
+00:04:23,275 --> 00:04:25,550
 distribute the energy more evenly.
 
 120
-00:04:46,425 --> 00:04:49,025
+00:04:26,700 --> 00:04:29,075
 So, a microwave heats food by using an
 
 121
-00:04:49,025 --> 00:04:51,512
+00:04:29,075 --> 00:04:31,425
 oscillating electric field to make polar
 
 122
-00:04:51,512 --> 00:04:54,062
+00:04:31,425 --> 00:04:33,875
 molecules like water constantly twist and
 
 123
-00:04:54,062 --> 00:04:56,737
+00:04:33,875 --> 00:04:36,300
 move, turning that molecular motion into
 
 124
-00:04:56,737 --> 00:04:57,475
+00:04:36,300 --> 00:04:36,975
 heat.
 
 125
-00:04:58,200 --> 00:05:00,462
+00:04:37,650 --> 00:04:39,787
 The cavity magnetron generates these
 
 126
-00:05:00,462 --> 00:05:02,613
+00:04:39,787 --> 00:04:41,737
 waves, while the conductive mesh and
 
 127
-00:05:02,613 --> 00:05:04,875
+00:04:41,737 --> 00:04:43,850
 specially designed door seals keep the
 
 128
-00:05:04,875 --> 00:05:07,175
+00:04:43,850 --> 00:04:45,925
 radiation safely contained.
 
 129
-00:05:07,900 --> 00:05:10,275
+00:04:46,600 --> 00:04:48,837
 And because microwaves only penetrate a
 
 130
-00:05:10,275 --> 00:05:12,963
+00:04:48,837 --> 00:04:51,275
 relatively shallow layer and create uneven
 
 131
-00:05:12,963 --> 00:05:15,600
+00:04:51,275 --> 00:04:53,750
 heating patterns, turntables and stirrers
 
 132
-00:05:15,600 --> 00:05:17,863
+00:04:53,750 --> 00:04:55,875
 help make sure your food warms up more
 
 133
-00:05:17,863 --> 00:05:18,850
+00:04:55,875 --> 00:04:56,725
 evenly.
 
 134
-00:05:20,000 --> 00:05:22,450
+00:04:57,825 --> 00:05:00,100
 Have you ever noticed cold spots in food
 
 135
-00:05:22,450 --> 00:05:24,512
+00:05:00,100 --> 00:05:02,037
 heated without a turntable? What's your
 
 136
-00:05:24,512 --> 00:05:27,225
+00:05:02,037 --> 00:05:04,475
 go-to trick for getting it heated evenly?
